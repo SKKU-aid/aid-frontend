@@ -8,7 +8,7 @@ const AllNotices = ({ userID, toggleFavorite }) => {
   const itemsPerPage = 8;
   const [page, setPage] = useState(1);
   const [scholarshipData, setScholarshipData] = useState([]);
-
+  
   useEffect(() => {
     const fetchLocalData = async () => {
       try {
@@ -38,6 +38,7 @@ const AllNotices = ({ userID, toggleFavorite }) => {
           scholarshipID={scholarship.scholarshipID}
           title={scholarship.scholarshipName}
           foundation={scholarship.scholarshipType}
+          id={scholarship.id}
           views={scholarship.views}
           tags={scholarship.eligibleMajors}
           date={scholarship.applicationPeriod}

@@ -15,8 +15,9 @@ const calculateDDay = (period) => {
   const diffDays = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
   return diffDays >= 0 ? `D-${diffDays}` : '마감';
 };
+import { useNavigate } from 'react-router-dom';
 
-const ScholarshipCard = ({ userID, scholarshipID, title, foundation, tags, date }) => {
+const ScholarshipCard = ({ id, userID, scholarshipID, title, foundation, tags, date }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const dDay = calculateDDay(date);
 
@@ -84,6 +85,12 @@ const ScholarshipCard = ({ userID, scholarshipID, title, foundation, tags, date 
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/notice/${id}`);
+  };
+
   return (
     <Card
       style={{
@@ -96,6 +103,7 @@ const ScholarshipCard = ({ userID, scholarshipID, title, foundation, tags, date 
         padding: '16px',
         boxShadow: 'none',
       }}
+      onClick={handleCardClick}
     >
       <CardContent style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0' }}>
         

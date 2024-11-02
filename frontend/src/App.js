@@ -5,11 +5,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import LoginFail from './pages/LoginFail';
+import NoticeDetail from './components/Notices/NoticeDetail';
 import Signup2 from './pages/Signup2';
 import Signup3 from './pages/Signup3';
 import Signup4 from './pages/Signup4';
-
 
 const theme = createTheme({
   typography: {
@@ -48,10 +47,11 @@ const App = () => {
               <Route path="/" element={<Home isLogin={false} setIsLogin={setIsLogin} />} />
               <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
               <Route path="/signUp" element={<Signup/>} />
-              <Route path="/loginfail" element={<LoginFail/>} />
+              <Route path="/notice/:id" element={<NoticeDetail />} />
               <Route path="/signUp2" element={<Signup2/>} />
               <Route path="/signUp3" element={<Signup3/>} />
               <Route path="/signUp4" element={<Signup4/>} />
+              <Route path="/home" element={<Home/>} />
             </>
         </Routes>
         </div>

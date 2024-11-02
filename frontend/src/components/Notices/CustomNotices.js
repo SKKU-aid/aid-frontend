@@ -22,7 +22,7 @@ const CustomNotices = ({ userID, scholarships, toggleFavorite }) => {
           {paginatedData.map((scholarship) => (
             <ScholarshipCard
               userID={userID}
-              key={scholarship.id}
+              id={scholarship.id}
               title={scholarship.title}
               foundation={scholarship.foundation}
               views={scholarship.views}
@@ -42,6 +42,25 @@ const CustomNotices = ({ userID, scholarships, toggleFavorite }) => {
       ) : (
         <p>로그인이 필요합니다</p>
       )}
+      {/* <h1>맞춤형 장학</h1> */}
+      {paginatedData.map((scholarship) => (
+        <ScholarshipCard
+          id={scholarship.id}
+          title={scholarship.title}
+          foundation={scholarship.foundation}
+          views={scholarship.views}
+          tags={scholarship.tags}
+          date={scholarship.date}
+          isFavorite={scholarship.isFavorite}
+          onToggleFavorite={() => toggleFavorite(scholarship.id)}
+        />
+      ))}
+      <Pagination
+        count={Math.ceil(recommendedScholarships.length / itemsPerPage)}
+        page={page}
+        onChange={handlePageChange}
+        style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}
+      />
     </div>
   );
 };

@@ -59,6 +59,7 @@ const FavNotices = ({ userID, toggleFavorite }) => {
           {paginatedData.length > 0 ? (
             paginatedData.map((scholarship) => (
               <ScholarshipCard
+                id={scholarship.id}
                 userID={userID}
                 scholarshipID={scholarship.scholarshipID}
                 title={scholarship.scholarshipName}
