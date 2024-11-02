@@ -5,9 +5,9 @@ const Login = ({ setIsLogin }) => {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        // 로그인 로직 추가 (예: API 호출 등)
-        setIsLogin(true);
+    const handleSignup = () => {
+        //확인로진
+        navigate('/home');
     };
 
     return (
