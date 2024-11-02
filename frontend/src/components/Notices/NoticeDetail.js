@@ -34,7 +34,7 @@ const NoticeDetail = ({ notices }) => {
     return (
         <div>
             <Header isLogin={true}/>
-            <Container sx={{backgroundColor: 'red'}}> 
+            <Container sx={{mt: '50px'}}> 
                 <Paper elevation={3} sx={{ padding: '25px', margin: '15px 30px', borderRadius: '15px' }}>
                     <Container sx={{ p: 3 }}>
                         <IconButton sx={{ p: '0', mb: '5px' }}>

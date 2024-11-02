@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Divider, Tab, Tabs, TextField } from '@mui/material';
+import { Container, Divider, Tab, Tabs, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Header from '../components/Common/Header';
 import AllNotices from '../components/Notices/AllNotices';
 import CustomNotices from '../components/Notices/CustomNotices';
 import FavNotices from '../components/Notices/FavNotices';
 import scholarshipsData from '../data/dummydata.json';
 import SearchField from '../components/Common/SearchField';
+import Filter from '../components/Common/Filter';
 
 const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [scholarships, setScholarships] = useState([]);
   
-  // 탭별 검색어 상태 추가
   const [allSearchQuery, setAllSearchQuery] = useState('');
   const [customSearchQuery, setCustomSearchQuery] = useState('');
   const [favSearchQuery, setFavSearchQuery] = useState('');
+
+  const [sortOption, setSortOption] = useState('recent'); 
 
   useEffect(() => {
     setScholarships(scholarshipsData);
@@ -34,12 +36,14 @@ const Home = ({ isLogin }) => {
     setActiveTab(newValue);
   };
 
-  // 각 탭별 검색어 변경 함수
   const handleAllSearchChange = (event) => setAllSearchQuery(event.target.value);
   const handleCustomSearchChange = (event) => setCustomSearchQuery(event.target.value);
   const handleFavSearchChange = (event) => setFavSearchQuery(event.target.value);
 
-  // 각 탭별 검색어 필터링
+  const handleSortChange = (event) => {
+    setSortOption(event.target.value);
+  };
+
   const filteredAllScholarships = scholarships.filter((scholarship) =>
     scholarship.title.toLowerCase().includes(allSearchQuery.toLowerCase()) ||
     scholarship.foundation.toLowerCase().includes(allSearchQuery.toLowerCase())
@@ -56,6 +60,28 @@ const Home = ({ isLogin }) => {
       scholarship.title.toLowerCase().includes(favSearchQuery.toLowerCase()) ||
       scholarship.foundation.toLowerCase().includes(favSearchQuery.toLowerCase())
     );
+
+  // !! 필터 정렬 함수 (데이터 값에 따라 수정 필요)
+  const sortScholarships = (scholarshipsToSort) => {
+    switch (sortOption) {
+      case 'recent':
+        return scholarshipsToSort.sort((a, b) => new Date(a.date) - new Date(b.date));
+      case 'deadline':
+        return scholarshipsToSort.sort((a, b) => {
+          const dateA = a.date.match(/\d{1,2}\.\d{1,2}/g);
+          const dateB = b.date.match(/\d{1,2}\.\d{1,2}/g);
+          return dateA && dateB ? new Date(dateA[0]) - new Date(dateB[0]) : 0;
+        });
+      case 'views':
+        return scholarshipsToSort.sort((a, b) => b.views - a.views);
+      default:
+        return scholarshipsToSort;
+    }
+  };
+
+  const sortedAllScholarships = sortScholarships([...filteredAllScholarships]);
+  const sortedCustomScholarships = sortScholarships([...filteredCustomScholarships]);
+  const sortedFavScholarships = sortScholarships([...filteredFavScholarships]);
 
   return (
     <div>
@@ -74,8 +100,8 @@ const Home = ({ isLogin }) => {
           </Tabs>
 
           <Divider sx={{ width: '100%' }} />
-          
-          <div style={{ display: 'flex', marginTop: '20px' }}>
+
+          <div style={{ width: '100%', display: 'flex', marginTop: '20px', alignItems: 'center', justifyContent: 'space-between' }}>
             {activeTab === 0 && (
               <SearchField
                 placeholder="모든 장학 검색"
@@ -97,14 +123,15 @@ const Home = ({ isLogin }) => {
                 onChange={handleFavSearchChange}
               />
             )}
+            <Filter sortOption={sortOption} onSortChange={handleSortChange} />
           </div>
         </Container>
       </div>
 
       <div style={{ padding: '30px 120px 50px', backgroundColor: 'white' }}>
-        {activeTab === 0 && <AllNotices scholarships={filteredAllScholarships} toggleFavorite={toggleFavorite} />}
-        {activeTab === 1 && <CustomNotices scholarships={filteredCustomScholarships} toggleFavorite={toggleFavorite} />}
-        {activeTab === 2 && <FavNotices scholarships={filteredFavScholarships} toggleFavorite={toggleFavorite} />}
+        {activeTab === 0 && <AllNotices scholarships={sortedAllScholarships} toggleFavorite={toggleFavorite} />}
+        {activeTab === 1 && <CustomNotices scholarships={sortedCustomScholarships} toggleFavorite={toggleFavorite} />}
+        {activeTab === 2 && <FavNotices scholarships={sortedFavScholarships} toggleFavorite={toggleFavorite} />}
       </div>
     </div>
   );
