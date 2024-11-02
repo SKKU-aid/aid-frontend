@@ -10,10 +10,13 @@ import scholarshipsData from '../data/dummydata.json'; // JSON 파일을 불러�
 const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [scholarships, setScholarships] = useState([]);
+  const userID = localStorage.getItem('userID'); // 로컬 스토리지에서 userID를 가져옴
 
   useEffect(() => {
     // scholarships.json에서 데이터를 로드하여 초기화
     setScholarships(scholarshipsData);
+    // scholarships을 localStorage에 저장
+    // localStorage.setItem('scholarships', JSON.stringify(scholarshipsData));
   }, []);
 
   // 관심 장학 여부를 토글하는 함수
@@ -35,6 +38,7 @@ const Home = ({ isLogin }) => {
     <div>
       <Header isLogin={isLogin}/>
       <div style={{ width: '100vw',  backgroundColor: 'white', overflowX: 'hidden', borderBottom: '1px solid #CDD0DC'}}>
+        {/* <div>USER ID {userID}</div> */}
         <Container sx={{m: '0 86px'}}>
           <Tabs
             value={activeTab}
@@ -49,9 +53,9 @@ const Home = ({ isLogin }) => {
         </Container>
       </div>
       <div style={{ padding: '30px 120px 50px', backgroundColor: '#white' }}>
-        {activeTab === 0 && <AllNotices scholarships={scholarships} toggleFavorite={toggleFavorite} />}
-        {activeTab === 1 && <CustomNotices scholarships={scholarships} toggleFavorite={toggleFavorite} />}
-        {activeTab === 2 && <FavNotices scholarships={scholarships} toggleFavorite={toggleFavorite} />}
+        {activeTab === 0 && <AllNotices userID={userID} scholarships={scholarships} toggleFavorite={toggleFavorite} />}
+        {activeTab === 1 && <CustomNotices userID={userID} scholarships={scholarships} toggleFavorite={toggleFavorite} />}
+        {activeTab === 2 && <FavNotices userID={userID} scholarships={scholarships} toggleFavorite={toggleFavorite} />}
       </div>
     </div>
   );

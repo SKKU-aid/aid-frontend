@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Home from './pages/Home';
@@ -25,13 +25,27 @@ const theme = createTheme({
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);
 
+  useEffect(() => {
+    // 로컬 스토리지에서 userID가 존재하면 로그인 상태로 설정
+    //UserID를 그냥 1234로 해줘.
+    localStorage.setItem('userID', '1234');
+    if (localStorage.getItem('userID')) {
+      setIsLogin(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    setIsLogin(false);
+    localStorage.removeItem('userID'); // 로그아웃 시 로컬 스토리지에서 userID 제거
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <div style={{ height: '100%', width: '100vw'}}>
         <Routes>
             <>
-              <Route path="/" element={<Home isLogin={true} setIsLogin={setIsLogin} />} />
+              <Route path="/" element={<Home isLogin={false} setIsLogin={setIsLogin} />} />
               <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
               <Route path="/signUp" element={<Signup/>} />
               <Route path="/loginfail" element={<LoginFail/>} />
