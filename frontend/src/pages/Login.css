@@ -62,12 +62,15 @@ body, html {
     font-weight: bold;
 }
 
+/* 로그인 입력창 스타일 */
 .login-form input {
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
+    pointer-events: auto; /* 입력 가능하게 설정 */
+    cursor: text; /* 텍스트 입력 커서로 변경 */
 }
 
 /* 로그인 버튼 스타일 */
