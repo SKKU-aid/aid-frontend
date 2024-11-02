@@ -29,7 +29,7 @@ const FavNotices = ({userID, scholarships,toggleFavorite }) => {
                 tags={scholarship.eligibleMajors}
                 date={scholarship.applicationPeriod}
                 isFavorite={scholarship.isFavorite}
-                onToggleFavorite={() => toggleFavorite(scholarship.scholarshipID)}
+                onToggleFavorite={() => toggleFavorite(userID, scholarship.scholarshipID)}
               />
             ))
           ) : (

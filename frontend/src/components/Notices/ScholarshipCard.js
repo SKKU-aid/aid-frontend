@@ -17,78 +17,19 @@ const calculateDDay = (period) => {
   return diffDays >= 0 ? `D-${diffDays}` : '마감';
 };
 
-const ScholarshipCard = ({ id, userID, scholarshipID, title, foundation, tags, date }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+const ScholarshipCard = ({ id, userID, scholarshipID, title, foundation, tags, date, views,onToggleFavorite, isFavorite  }) => {
+  // const [isFavorite, setIsFavorite] = useState(false);
   const dDay = date ?  calculateDDay(date) || '-' : '-';
-
-  // useEffect(() => {
-  //   // 관심 장학 여부를 user_dummy.json에서 확인
-  //   const fetchFavoriteStatus = () => {
-  //     if (fs && path) {
-  //       try {
-  //         const dataPath = path.join(__dirname, '../../data/user_dummy.json');
-  //         const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
-
-  //         const userData = data.find((user) => user.userID === userID);
-  //         if (userData) {
-  //           const isFavoriteScholarship = userData.scholarship.some((s) => s.scholarshipID === scholarshipID);
-  //           setIsFavorite(isFavoriteScholarship);
-  //         }
-  //       } catch (error) {
-  //         console.error('Failed to read user_dummy.json:', error);
-  //       }
-  //     }
-  //   };
-
-  //   fetchFavoriteStatus();
-  // }, [userID, scholarshipID]);
-
-  // const handleToggleFavorite = () => {
-  //   if (!userID) {
-  //     alert("로그인이 필요합니다.");
-  //     return;
-  //   }
-
-  //   if (fs && path) {
-  //     try {
-  //       const dataPath = path.join(__dirname, '../../data/user_dummy.json');
-  //       const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
-  //       const userIndex = data.findIndex((user) => user.userID === userID);
-
-  //       if (userIndex !== -1) {
-  //         const userData = data[userIndex];
-  //         const scholarshipIndex = userData.scholarship.findIndex((s) => s.scholarshipID === scholarshipID);
-
-  //         if (scholarshipIndex !== -1) {
-  //           // 관심 장학에서 삭제
-  //           userData.scholarship.splice(scholarshipIndex, 1);
-  //           setIsFavorite(false);
-  //           console.log(`장학금 ID ${scholarshipID}가 관심 목록에서 삭제되었습니다.`);
-  //         } else {
-  //           // 관심 장학에 추가
-  //           userData.scholarship.push({
-  //             scholarshipID,
-  //             scholarshipName: title,
-  //           });
-  //           setIsFavorite(true);
-  //           console.log(`장학금 ID ${scholarshipID}가 관심 목록에 추가되었습니다.`);
-  //         }
-
-  //         // 업데이트된 데이터를 user_dummy.json에 다시 쓰기
-  //         fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-  //       } else {
-  //         console.error("User not found in user_dummy.json");
-  //       }
-  //     } catch (error) {
-  //       console.error('Failed to write to user_dummy.json:', error);
-  //     }
-  //   }
-  // };
 
   const navigate = useNavigate();
 
   const handleCardClick = () => {
     navigate(`/notice/${id}`);
+  };
+
+  const handleFavoriteClick = (event) => {
+    event.stopPropagation(); // IconButton 클릭 시 카드의 클릭 이벤트 전파 방지
+    onToggleFavorite(); // 즐겨찾기 상태를 토글
   };
 
   return (
@@ -111,7 +52,7 @@ const ScholarshipCard = ({ id, userID, scholarshipID, title, foundation, tags, d
         <div style={{ flex: 3, textAlign: 'center' }}>
           <Typography variant="h6" style={{ fontWeight: 'bold', marginBottom: '8px' }}>{title}</Typography>
           <Typography variant="body2" color="textSecondary">
-            {foundation}
+            {foundation} 조회수: {views}
           </Typography>
         </div>
 
@@ -139,7 +80,7 @@ const ScholarshipCard = ({ id, userID, scholarshipID, title, foundation, tags, d
 
         {/* 네 번째 구역: 하트 아이콘 */}
         <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <IconButton onClick={() => console.log("FAV Click!")}>
+          <IconButton onClick={handleFavoriteClick}>
             {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
           </IconButton>
         </div>

@@ -31,10 +31,10 @@ const Home = ({ isLogin }) => {
     // localStorage.setItem('scholarships', JSON.stringify(scholarshipsData));
   }, []);
 
-  const toggleFavorite = (id) => {
+  const toggleFavorite = (userID, id) => {
     setScholarships((prevScholarships) =>
       prevScholarships.map((scholarship) =>
-        scholarship.id === id
+        scholarship.scholarshipID === id
           ? { ...scholarship, isFavorite: !scholarship.isFavorite }
           : scholarship
       )
