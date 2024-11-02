@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setIsLogin }) => {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    const handleSignup = () => {
+    const handleLogin = () => {
         //확인로진
+        
         navigate('/home');
     };
 
