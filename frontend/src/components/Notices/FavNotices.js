@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import ScholarshipCard from './ScholarshipCard';
 import { Pagination } from '@mui/material';
 
-const FavNotices = ({ scholarships, userID, toggleFavorite }) => {
+const FavNotices = ({userID, scholarships,toggleFavorite }) => {
   const itemsPerPage = 8;
   const [page, setPage] = useState(1);
 
@@ -24,8 +24,8 @@ const FavNotices = ({ scholarships, userID, toggleFavorite }) => {
                 id={scholarship.scholarshipID}
                 userID={userID}
                 title={scholarship.scholarshipName}
-                foundation={scholarship.scholarshipType}
-                views={scholarship.views || 0} 
+                foundation={scholarship.foundation}
+                views={scholarship.views}
                 tags={scholarship.eligibleMajors}
                 date={scholarship.applicationPeriod}
                 isFavorite={scholarship.isFavorite}

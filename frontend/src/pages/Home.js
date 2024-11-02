@@ -4,13 +4,17 @@ import Header from '../components/Common/Header';
 import AllNotices from '../components/Notices/AllNotices';
 import CustomNotices from '../components/Notices/CustomNotices';
 import FavNotices from '../components/Notices/FavNotices';
-import scholarshipsData from '../data/dummydata.json';
+import scholarshipsData from '../data/dummy2.json';
+import recommededData from '../data/recommended.json';
+import FavData from '../data/user_dummy.json'
 import SearchField from '../components/Common/SearchField';
 import Filter from '../components/Common/Filter';
 
 const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [scholarships, setScholarships] = useState([]);
+  const [recommendedScholarships, setRecommendedScholarships] = useState([]);
+  const [favScholarships, setFavScholarships] = useState([]);
   const userID = localStorage.getItem('userID'); // 로컬 스토리지에서 userID를 가져옴
   
   const [allSearchQuery, setAllSearchQuery] = useState('');
@@ -20,7 +24,9 @@ const Home = ({ isLogin }) => {
   const [sortOption, setSortOption] = useState('recent'); 
 
   useEffect(() => {
-    setScholarships(scholarshipsData);
+    setScholarships(scholarshipsData.data);
+    setRecommendedScholarships(recommededData.data);
+    setFavScholarships(FavData.data);
     // scholarships을 localStorage에 저장
     // localStorage.setItem('scholarships', JSON.stringify(scholarshipsData));
   }, []);
@@ -51,11 +57,11 @@ const Home = ({ isLogin }) => {
     scholarship.scholarshipName.toLowerCase().includes(allSearchQuery.toLowerCase()) 
   );
 
-  const filteredCustomScholarships = scholarships.filter((scholarship) =>
+  const filteredCustomScholarships = recommendedScholarships.filter((scholarship) =>
     scholarship.scholarshipName.toLowerCase().includes(customSearchQuery.toLowerCase()) 
   );
 
-  const filteredFavScholarships = scholarships
+  const filteredFavScholarships = favScholarships
     .filter((scholarship) => scholarship.isFavorite)
     .filter((scholarship) =>
       scholarship.scholarshipName.toLowerCase().includes(favSearchQuery.toLowerCase()) 

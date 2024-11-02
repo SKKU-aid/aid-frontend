@@ -21,7 +21,7 @@ const CustomNotices = ({ userID, scholarships, toggleFavorite }) => {
           id={scholarship.scholarshipID}
           userID={userID}
           title={scholarship.scholarshipName}
-          foundation={scholarship.scholarshipType}
+          foundation={scholarship.foundation}
           views={scholarship.views}
           tags={scholarship.eligibleMajors}
           date={scholarship.applicationPeriod}
