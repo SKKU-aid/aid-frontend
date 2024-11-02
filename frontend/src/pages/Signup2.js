@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup2.css';
-import { Autocomplete, TextField } from '@mui/material';
+import {
+  Button,
+  Autocomplete,
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  ToggleButton,
+  ToggleButtonGroup,
+  TextField,
+} from '@mui/material';
 
 const majorOptions = [
   '경영학과', '글로벌경영학과', '앙트레프레너십연계전공', '경제학과', '국제통상학전공', '소비자학과',
@@ -28,9 +39,28 @@ const Signup2 = () => {
 
   const navigate = useNavigate();
 
+  const isDisabled = gender === '' || birthDate === '' || email === '' || major === '' || currentSemester === '' || academicStatus === '';
+
   const handleNext = () => {
-    // 다음 단계로 진행하는 로직 추가
+    let formattedBirth = birthDate;
+    
+    if (birthDate.length === 10) {
+      formattedBirth = `${birthDate}T00:00:00`;
+    } else if (birthDate.length === 8) {
+      formattedBirth = `${birthDate.slice(0, 4)}-${birthDate.slice(4, 6)}-${birthDate.slice(6, 8)}T00:00:00`;
+    }
+
+    const step2Data = {
+      gender,
+      birthDate: formattedBirth,
+      email,
+      major,
+      currentSemester,
+      academicStatus,
+    };
+
     navigate('/signup3');
+    console.log('step2Data', step2Data);
   };
 
   return (
@@ -39,78 +69,104 @@ const Signup2 = () => {
         <img src="/logo.png" alt="SKKU 장학비서" className="signup2-logo" />
         <h1 id="signup2-title">기본 정보 입력</h1>
       </div>
-      <div className="signup2-form">
-        <div className="gender-birth-container">
-          <div className="gender-container">
-            <label>성별</label>
-            <div className="gender-options">
-              <button
-                className={gender === '남' ? 'gender-button active' : 'gender-button'}
-                onClick={() => setGender('남')}
-              >
-                남
-              </button>
-              <button
-                className={gender === '여' ? 'gender-button active' : 'gender-button'}
-                onClick={() => setGender('여')}
-              >
-                여
-              </button>
-            </div>
-          </div>
-          <div className="birth-container">
-            <label htmlFor="birthDate">생년월일</label>
-            <input
-              type="text"
-              id="birthDate"
-              value={birthDate}
-              onChange={(e) => setBirthDate(e.target.value)}
-              placeholder="생년월일"
-            />
-          </div>
-        </div>
-        <label htmlFor="email">이메일</label>
-        <input
+      <form className="signup2-form">
+        <ToggleButtonGroup
+          value={gender}
+          exclusive
+          onChange={(e, newGender) => setGender(newGender)}
+          aria-label="gender"
+          sx={{ mb: 3 }}
+          fullWidth
+        >
+          <ToggleButton value="남" aria-label="male" sx={{ '&.Mui-selected': { backgroundColor: '#ebfcdc'} }}>남</ToggleButton>
+          <ToggleButton value="여" aria-label="female" sx={{ '&.Mui-selected': { backgroundColor: '#ebfcdc'} }}>여</ToggleButton>
+        </ToggleButtonGroup>
+        <TextField
+          type="text"
+          label="생년월일"
+          placeholder="YYYY-MM-DD"
+          value={birthDate}
+          onChange={(e) => setBirthDate(e.target.value)}
+          fullWidth
+          variant="outlined"
+          InputProps={{
+            notched: false,
+          }}
+          sx={{ mb: 3 }}
+        />
+        <TextField
           type="email"
-          id="email"
+          label="이메일"
+          placeholder="IamSungKyun@g.skku.edu"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="이메일"
+          fullWidth
+          variant="outlined"
+          InputProps={{
+            notched: false,
+          }}
+          sx={{ mb: 3 }}
         />
-        <label htmlFor="major">전공</label>
         <Autocomplete
-          id="major"
-          options={majorOptions}
-          value={major}
+          value={major || null}
           onChange={(event, newValue) => setMajor(newValue)}
+          options={majorOptions}
           renderInput={(params) => (
-            <TextField {...params} label="전공 선택" variant="outlined" />
+            <TextField {...params} label="전공" fullWidth variant="outlined" InputProps={{ notched: false }} sx={{ mb: 3 }} />
           )}
         />
-        <div className="semester-status-container">
-          <div className="semester-container">
-            <label htmlFor="currentSemester">현재 학기</label>
-            <input
-              type="text"
-              id="currentSemester"
-              value={currentSemester}
-              onChange={(e) => setCurrentSemester(e.target.value)}
-              placeholder="현재 학기"
-            />
-          </div>
-          <div className="status-container">
-            <label htmlFor="academicStatus">학적 상태</label>
-            <input
-              type="text"
-              id="academicStatus"
-              value={academicStatus}
-              onChange={(e) => setAcademicStatus(e.target.value)}
-              placeholder="학적 상태"
-            />
-          </div>
-        </div>
-        <button onClick={handleNext} className="signup2-button">다음</button>
-      </div>
+        <FormControl fullWidth sx={{ mb: 3 }} variant="outlined">
+          <InputLabel id="semester-select-label">현재 학기</InputLabel>
+          <Select
+            labelId="semester-select-label"
+            id="semester-select"
+            value={currentSemester}
+            label="현재 학기"
+            onChange={(e) => setCurrentSemester(e.target.value)}
+          >
+            <MenuItem value={1}>1학기</MenuItem>
+            <MenuItem value={2}>2학기</MenuItem>
+            <MenuItem value={3}>3학기</MenuItem>
+            <MenuItem value={4}>4학기</MenuItem>
+            <MenuItem value={5}>5학기</MenuItem>
+            <MenuItem value={6}>6학기</MenuItem>
+            <MenuItem value={7}>7학기</MenuItem>
+            <MenuItem value={8}>8학기</MenuItem>
+            <MenuItem value={9}>9학기 이상</MenuItem>
+          </Select>
+        </FormControl>
+        <ToggleButtonGroup
+          value={academicStatus}
+          exclusive
+          onChange={(e, newStatus) => setAcademicStatus(newStatus)}
+          aria-label="academic status"
+          sx={{ mb: 3 }}
+          fullWidth
+        >
+          <ToggleButton value="재학" aria-label="enrolled" sx={{ '&.Mui-selected': { backgroundColor: '#ebfcdc'} }}>재학</ToggleButton>
+          <ToggleButton value="휴학" aria-label="absence" sx={{ '&.Mui-selected': { backgroundColor: '#ebfcdc'} }}>휴학</ToggleButton>
+          <ToggleButton value="수료" aria-label="completion" sx={{ '&.Mui-selected': { backgroundColor: '#ebfcdc'} }}>수료</ToggleButton>
+        </ToggleButtonGroup>
+        <Box mt={2}>
+          <Button
+            variant="standard"
+            fullWidth
+            disabled={isDisabled}
+            onClick={handleNext}
+            sx={{
+              backgroundColor: isDisabled ? 'transparent' : '#388E3C',
+              '&:hover': {
+                backgroundColor: isDisabled ? 'transparent' : '#2E7D32',
+              },
+              color: isDisabled ? '#505050' : 'white',
+              p: 1,
+              fontSize: '16px',
+            }}
+          >
+            다음
+          </Button>
+        </Box>
+      </form>
     </div>
   );
 };

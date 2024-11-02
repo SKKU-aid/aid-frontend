@@ -20,7 +20,7 @@ body, html {
     transform: translate(-50%, -50%);
     padding: 40px;
     width: 500px;
-    height: 500px;
+    height: 600px;
     border: 1px solid #ddd;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -51,6 +51,7 @@ body, html {
 }
 
 /* 회원가입2 폼 스타일 */
+
 .signup2-form {
     width: 100%;
     display: flex;
@@ -58,7 +59,7 @@ body, html {
     margin-top: -20px;
 }
 
-.signup2-form label {
+/*.signup2-form label {
     margin-top: 10px;
     font-weight: bold;
 }
@@ -69,19 +70,22 @@ body, html {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
-}
+}*/
 
-/* 전공 드롭다운 스타일 */
-.major-dropdown {
-    padding: 10px;
+
+
+
+/* 전공 드롭다운 왼쪽 정렬 스타일 */
+
+#major {
+    text-align: left;
+    margin-left: 0;
+    width: 100%;
     margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1em;
-    height: 35px;
 }
 
 /* 성별 및 생년월일 컨테이너 스타일 */
+/*
 .gender-birth-container {
     display: flex;
     justify-content: space-between;
@@ -112,8 +116,9 @@ body, html {
     background-color: #ddd;
     font-weight: bold;
 }
-
+*/
 /* 학기 및 학적 상태 컨테이너 스타일 */
+/*
 .semester-status-container {
     display: flex;
     justify-content: space-between;
@@ -124,8 +129,9 @@ body, html {
 .semester-container, .status-container {
     width: 48%;
 }
-
+*/
 /* 회원가입2 버튼 스타일 */
+/*
 .signup2-button {
     margin-top: 20px;
     width: 120px;
@@ -137,4 +143,4 @@ body, html {
     font-weight: bold;
     cursor: pointer;
     align-self: flex-end;
-}
+}*/
