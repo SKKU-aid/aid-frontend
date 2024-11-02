@@ -15,18 +15,18 @@ const NoticeDetail = ({ notices }) => {
         const noticeFromNotices = notices?.find((item) => item.id === parseInt(id));
         const noticeFromDummyData = scholarshipsDetailData.find((item) => item.scholarshipID === parseInt(id));
         setNotice(noticeFromNotices || noticeFromDummyData);
+        console.log(noticeFromNotices);
+        console.log(noticeFromDummyData);
     }, [id, notices]);
     
     if (!notice) {
         return <div>장학금 정보를 찾을 수 없습니다.</div>;
     }
 
-    let currentNumber = 1;
-
     const renderSubtitle = (title, content) => (
         (content !== null && content !== "") && (
         <Typography variant="subtitle1" sx={{ fontWeight: 600, marginTop: '12px' }}>
-            <span style={{ fontWeight: 900 }}>{currentNumber++}. {title}</span> : {content}
+            <span style={{ fontWeight: 900 }}>{title}</span> : {content}
         </Typography>
         )
     );
@@ -37,50 +37,51 @@ const NoticeDetail = ({ notices }) => {
             <Container sx={{mt: '50px'}}> 
                 <Paper elevation={3} sx={{ padding: '25px', margin: '15px 30px', borderRadius: '15px' }}>
                     <Container sx={{ p: 3 }}>
-                        <IconButton sx={{ p: '0', mb: '5px' }}>
-                        <FavoriteIcon />
+                        <IconButton sx={{ p: '0', mb: '15px' }}>
+                            <FavoriteIcon />
                         </IconButton>
+
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Typography variant="h5" sx={{ fontWeight: 700 }}>{notice.scholarshipName || notice.title}</Typography>
-                        {notice.daysLeft !== undefined ? (
-                            notice.daysLeft >= 0 ? (
-                            <Chip
-                                label={notice.daysLeft === 0 ? 'D-day' : `D-${notice.daysLeft}`}
-                                style={{
-                                backgroundColor: notice.daysLeft === 0 ? '#FF6D60' : '#609966',
-                                color: 'white',
-                                borderRadius: '10px',
-                                fontWeight: 'bold',
-                                margin: '10px 0 0',
-                                }}
-                            />
-                            ) : (
-                            <Chip
-                                label="모집 완료"
-                                style={{ backgroundColor: 'darkgray', color: 'white', borderRadius: '10px', fontWeight: 'bold', margin: '10px 0 0' }}
-                            />
-                            )
-                        ) : null}
+                            <Typography variant="h5" sx={{ fontWeight: 700 }}>{notice.scholarshipName || notice.title}</Typography>
+                            {notice.daysLeft !== undefined ? (
+                                notice.daysLeft >= 0 ? (
+                                <Chip
+                                    label={notice.daysLeft === 0 ? 'D-day' : `D-${notice.daysLeft}`}
+                                    style={{
+                                    backgroundColor: notice.daysLeft === 0 ? '#FF6D60' : '#609966',
+                                    color: 'white',
+                                    borderRadius: '10px',
+                                    fontWeight: 'bold',
+                                    margin: '10px 0 0',
+                                    }}
+                                />
+                                ) : (
+                                <Chip
+                                    label="모집 완료"
+                                    style={{ backgroundColor: 'darkgray', color: 'white', borderRadius: '10px', fontWeight: 'bold', margin: '10px 0 0' }}
+                                />
+                                )
+                            ) : null}
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '5px' }}>
-                        <div>
-                            {notice.keywords &&
-                            notice.keywords.map((keyword, index) => (
-                                <Chip
-                                key={index}
-                                sx={{ m: '0px 10px 10px 0px', p: '5px', backgroundColor: '#EDF1D6' }}
-                                label={`#${keyword}`}
-                                />
-                            ))}
-                        </div>
+                            <div>
+                                {notice.tags &&
+                                    notice.tags.map((keyword, index) => (
+                                        <Chip
+                                        key={index}
+                                        sx={{ m: '0px 10px 10px 0px', p: '5px', backgroundColor: '#EDF1D6' }}
+                                        label={`#${keyword}`}
+                                        />
+                                ))}
+                            </div>
                         </div>
                         <Divider sx={{ margin: '15px 0 20px' }} />
+                        {renderSubtitle('장학재단', notice.foundation)}
                         {renderSubtitle('신청기간', notice.applicationPeriod || notice.applyEndAt)}
                         {renderSubtitle('선발인원', notice.numberOfRecipients || notice.numSelection)}
                         {renderSubtitle('선발혜택', notice.scholarshipAmount || notice.benefit)}
                         {renderSubtitle('접수방법', notice.applicationMethod || notice.applyMethod)}
                         {renderSubtitle('지원대상', notice.eligibleMajors ? notice.eligibleMajors.join(', ') : notice.target)}
-                        {renderSubtitle('문의', notice.inquiry)}
                         {renderSubtitle('링크', notice.link ? (
                         <a href={notice.link} target="_blank" rel="noopener noreferrer" style={{ color: 'green', fontWeight: 'bold' }}>
                             🚀 원본 링크로 이동하기 🚀 
