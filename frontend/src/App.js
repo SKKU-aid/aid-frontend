@@ -5,7 +5,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import LoginFail from './pages/LoginFail';
 import Signup2 from './pages/Signup2';
 import Signup3 from './pages/Signup3';
 import Signup4 from './pages/Signup4';
@@ -34,7 +33,6 @@ const App = () => {
               <Route path="/" element={<Home isLogin={true} setIsLogin={setIsLogin} />} />
               <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
               <Route path="/signUp" element={<Signup/>} />
-              <Route path="/loginfail" element={<LoginFail/>} />
               <Route path="/signUp2" element={<Signup2/>} />
               <Route path="/signUp3" element={<Signup3/>} />
               <Route path="/signUp4" element={<Signup4/>} />

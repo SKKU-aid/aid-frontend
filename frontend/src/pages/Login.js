@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
-import './Login.css';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 const Login = ({ setIsLogin }) => {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
+    const [loginFail, setLoginFail] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = () => {
-        //확인로진
-        
-        navigate('/home');
+        if (userId === 'a' && password === '1') {
+            setIsLogin(true);
+            setLoginFail(false);
+            navigate('/home');
+        } else {
+            setLoginFail(true);
+        }
     };
 
     return (
-        <div className="login-container">
+        <div className={loginFail ? "login-fail-container" : "login-container"}>
             <div className="login-header">
                 <img src="/logo.png" alt="SKKU 장학비서" className="login-logo" />
                 <h1 id="login-title">로그인</h1>
@@ -36,6 +41,7 @@ const Login = ({ setIsLogin }) => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="비밀번호"
                 />
+                {loginFail && <p className="error-message">! 아이디 또는 비밀번호가 틀렸습니다</p>}
                 <button onClick={handleLogin} className="login-button">로그인</button>
             </div>
             <div className="login-links">
