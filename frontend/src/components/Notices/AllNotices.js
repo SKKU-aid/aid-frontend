@@ -29,8 +29,8 @@ const AllNotices = ({ scholarships, userID, toggleFavorite }) => {
           date={scholarship.applicationPeriod}
           isFavorite={scholarship.isFavorite}
           // isFavorite={scholarship.isFavorite}
-          onToggleFavorite={() => toggleFavorite(scholarship.scholarshipID)}
-        />
+          onToggleFavorite={() => toggleFavorite(userID, scholarship.scholarshipID)}
+          />
       ))}
       <Pagination
         count={Math.ceil(scholarships.length / itemsPerPage)}
