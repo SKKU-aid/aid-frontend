@@ -1,11 +1,16 @@
-// src/components/ScholarshipCard.js
-
 import React from 'react';
 import { Card, CardContent, Typography, Chip, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useNavigate } from 'react-router-dom';
 
-const ScholarshipCard = ({ title, foundation, views, tags, date, isFavorite, onToggleFavorite }) => {
+const ScholarshipCard = ({ id, title, foundation, views, tags, date, isFavorite, onToggleFavorite }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/notice/${id}`);
+  };
+
   return (
     <Card
       style={{
@@ -19,6 +24,7 @@ const ScholarshipCard = ({ title, foundation, views, tags, date, isFavorite, onT
         padding: '16px',
         boxShadow: 'none',
       }}
+      onClick={handleCardClick}
     >
       <CardContent style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0' }}>
         

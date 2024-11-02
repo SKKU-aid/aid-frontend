@@ -18,8 +18,7 @@ const AllNotices = ({ scholarships, toggleFavorite }) => {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
       {paginatedData.map((scholarship) => (
         <ScholarshipCard
-
-          key={scholarship.id}
+          id={scholarship.id}
           title={scholarship.title}
           foundation={scholarship.foundation}
           views={scholarship.views}
