@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Drawer, List, ListItem, Avatar, Button, Typography } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import UserInfoDialog from './UserInfoDialog';
 
 const Sidebar = ({ isOpen, onClose, isLogin }) => {
     const userId = "진아지롱";
@@ -18,6 +19,16 @@ const Sidebar = ({ isOpen, onClose, isLogin }) => {
         residenceInfo: { residence: '서울', city: '강남구' },
     });
 
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleOpenDialog = () => {
+        setOpenDialog(true);
+    }
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    }
+
     return (
         <Drawer anchor="right" open={isOpen} onClose={onClose} sx={{ width: '300px' }}>
             <Button onClick={onClose} sx={{mt: 2, p: '0', width: 'max-content'}}>
@@ -29,13 +40,14 @@ const Sidebar = ({ isOpen, onClose, isLogin }) => {
                     <>
                         <Avatar alt="프로필 사진" sx={{ width: '150px', height: '150px', mb: '20px', p: 1}} />
                         <Typography sx={{fontWeight: 800}}>{userInfo ? `${userInfo.username} 님` : "꾸디 님"}</Typography>
-                        <Button sx={{backgroundColor: 'green', color: '#fff', m: 3, p: '5px 20px', '&:hover': {backgroundColor: 'yellowgreen'}, fontWeight: 600 }}>
+                        <Button onClick={handleOpenDialog} sx={{backgroundColor: 'green', color: '#fff', m: 3, p: '5px 20px', '&:hover': {backgroundColor: 'yellowgreen'}, fontWeight: 600 }}>
                             내 정보 
                         </Button>
                     </>
                     : <AccountCircle sx={{ fontSize: 160, mb: '20px', color: 'gray' }} />}
                 </ListItem>
             </List>
+            <UserInfoDialog open={openDialog} onClose={handleCloseDialog} userInfo={userInfo} setUserInfo={setUserInfo}/>
         </Drawer>
     );
 };
