@@ -48,39 +48,43 @@ const Home = ({ isLogin }) => {
   };
 
   const filteredAllScholarships = scholarships.filter((scholarship) =>
-    scholarship.title.toLowerCase().includes(allSearchQuery.toLowerCase()) ||
-    scholarship.foundation.toLowerCase().includes(allSearchQuery.toLowerCase())
+    scholarship.scholarshipName.toLowerCase().includes(allSearchQuery.toLowerCase()) 
   );
 
   const filteredCustomScholarships = scholarships.filter((scholarship) =>
-    scholarship.title.toLowerCase().includes(customSearchQuery.toLowerCase()) ||
-    scholarship.foundation.toLowerCase().includes(customSearchQuery.toLowerCase())
+    scholarship.scholarshipName.toLowerCase().includes(customSearchQuery.toLowerCase()) 
   );
 
   const filteredFavScholarships = scholarships
     .filter((scholarship) => scholarship.isFavorite)
     .filter((scholarship) =>
-      scholarship.title.toLowerCase().includes(favSearchQuery.toLowerCase()) ||
-      scholarship.foundation.toLowerCase().includes(favSearchQuery.toLowerCase())
+      scholarship.scholarshipName.toLowerCase().includes(favSearchQuery.toLowerCase()) 
     );
 
   // !! 필터 정렬 함수 (데이터 값에 따라 수정 필요)
   const sortScholarships = (scholarshipsToSort) => {
     switch (sortOption) {
       case 'recent':
-        return scholarshipsToSort.sort((a, b) => new Date(a.date) - new Date(b.date));
-      case 'deadline':
+        // Assuming 'applicationPeriod' contains the start date, sorting by the earliest application start date
         return scholarshipsToSort.sort((a, b) => {
-          const dateA = a.date.match(/\d{1,2}\.\d{1,2}/g);
-          const dateB = b.date.match(/\d{1,2}\.\d{1,2}/g);
-          return dateA && dateB ? new Date(dateA[0]) - new Date(dateB[0]) : 0;
+          const dateA = new Date(a.applicationPeriod.split('~')[0]);
+          const dateB = new Date(b.applicationPeriod.split('~')[0]);
+          return dateA - dateB;
+        });
+      case 'deadline':
+        // Sort by the end date of the application period
+        return scholarshipsToSort.sort((a, b) => {
+          const dateA = new Date(a.applicationPeriod.split('~')[1]);
+          const dateB = new Date(b.applicationPeriod.split('~')[1]);
+          return dateA - dateB;
         });
       case 'views':
+        // If you have a 'views' property in your data, otherwise remove this case
         return scholarshipsToSort.sort((a, b) => b.views - a.views);
       default:
         return scholarshipsToSort;
     }
-  };
+  };  
 
   const sortedAllScholarships = sortScholarships([...filteredAllScholarships]);
   const sortedCustomScholarships = sortScholarships([...filteredCustomScholarships]);
