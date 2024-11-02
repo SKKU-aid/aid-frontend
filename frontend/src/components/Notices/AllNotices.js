@@ -23,11 +23,12 @@ const AllNotices = ({ scholarships, userID, toggleFavorite }) => {
           id={scholarship.scholarshipID}
           userID={userID}
           title={scholarship.scholarshipName}
-          foundation={scholarship.scholarshipType}
+          foundation={scholarship.foundation}
           views={scholarship.views}
           tags={scholarship.eligibleMajors}
           date={scholarship.applicationPeriod}
           isFavorite={scholarship.isFavorite}
+          // isFavorite={scholarship.isFavorite}
           onToggleFavorite={() => toggleFavorite(scholarship.scholarshipID)}
         />
       ))}
