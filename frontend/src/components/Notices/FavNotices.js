@@ -1,6 +1,6 @@
 // src/components/Notices/FavNotices.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ScholarshipCard from './ScholarshipCard';
 import { Pagination } from '@mui/material';
 

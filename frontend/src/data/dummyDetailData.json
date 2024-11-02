@@ -14,7 +14,9 @@
         "requiredDocuments": "성적증명서, 주민등록등본",
         "applicationMethod": "온라인 접수",
         "significant": "선발자 발표 이후 발대식 참석 필수",
-        "link": "www.baekyeopfoundation.or.kr"
+        "link": "www.baekyeopfoundation.or.kr",
+        "foundation": "백엽재단",
+        "tags": ["화학공학", "경제학과"]
     },
     {
         "scholarshipID": 2,
@@ -31,7 +33,9 @@
         "requiredDocuments": "사회봉사활동 인증서, 성적증명서",
         "applicationMethod": "우편 접수",
         "significant": "수상 후 서울장학재단 주관 봉사활동 필수",
-        "link": "www.seoulfoundation.or.kr"
+        "link": "www.seoulfoundation.or.kr",
+        "foundation": "서울장학재단",
+        "tags": ["사회복지학과", "교육학과"]
     },
     {
         "scholarshipID": 3,
@@ -48,7 +52,9 @@
         "requiredDocuments": "성적증명서",
         "applicationMethod": "대면 접수",
         "significant": "장학금 수혜자 간담회 참석 필수",
-        "link": "www.cbinjae.or.kr"
+        "link": "www.cbinjae.or.kr",
+        "foundation": "충청북도 인재육성재단",
+        "tags": ["경영학과", "경제학과"]
     },
     {
         "scholarshipID": 4,
@@ -65,7 +71,9 @@
         "requiredDocuments": "포트폴리오, 성적증명서",
         "applicationMethod": "온라인 접수",
         "significant": "수상자 전시회 참여 필수",
-        "link": "www.bsjanghak.or.kr"
+        "link": "www.bsjanghak.or.kr",
+        "foundation": "부산장학재단",
+        "tags": ["음악과", "미술학과"]
     },
     {
         "scholarshipID": 5,
@@ -82,7 +90,9 @@
         "requiredDocuments": "주민등록등본, 학과 추천서",
         "applicationMethod": "온라인 접수",
         "significant": "수혜자 모임 참석 필수",
-        "link": "www.jejudojanghak.or.kr"
+        "link": "www.jejudojanghak.or.kr",
+        "foundation": "제주도 장학재단",
+        "tags": ["법학과", "의학과"]
     },
     {
         "scholarshipID": 6,
@@ -99,7 +109,9 @@
         "requiredDocuments": "성적증명서, 주민등록등본",
         "applicationMethod": "대면 접수",
         "significant": "수혜자 간담회 참석 필수",
-        "link": "www.kangwonjanghak.or.kr"
+        "link": "www.kangwonjanghak.or.kr",
+        "foundation": "강원도 장학회",
+        "tags": ["농학과", "수학과"]
     },
     {
         "scholarshipID": 7,
@@ -116,7 +128,9 @@
         "requiredDocuments": "성적증명서, 학과 추천서",
         "applicationMethod": "온라인 접수",
         "significant": "수혜자 간담회 참석 필수",
-        "link": "www.gwangjujanghak.or.kr"
+        "link": "www.gwangjujanghak.or.kr",
+        "foundation": "광주지역 장학재단",
+        "tags": ["물리학과", "화학학과"]
     },
     {
         "scholarshipID": 8,
@@ -133,6 +147,8 @@
         "requiredDocuments": "성적증명서, 학과 추천서",
         "applicationMethod": "대면 접수",
         "significant": "수혜자 간담회 참석 필수",
-        "link": "www.daegujanghak.or.kr"
+        "link": "www.daegujanghak.or.kr",
+        "foundation": "대구지역 장학재단",
+        "tags": ["국어국문학과", "사학과"]
     }
 ]
