@@ -11,6 +11,7 @@ import Filter from '../components/Common/Filter';
 const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [scholarships, setScholarships] = useState([]);
+  const userID = localStorage.getItem('userID'); // 로컬 스토리지에서 userID를 가져옴
   
   const [allSearchQuery, setAllSearchQuery] = useState('');
   const [customSearchQuery, setCustomSearchQuery] = useState('');
@@ -20,6 +21,8 @@ const Home = ({ isLogin }) => {
 
   useEffect(() => {
     setScholarships(scholarshipsData);
+    // scholarships을 localStorage에 저장
+    // localStorage.setItem('scholarships', JSON.stringify(scholarshipsData));
   }, []);
 
   const toggleFavorite = (id) => {

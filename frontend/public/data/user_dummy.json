@@ -1,0 +1,24 @@
+[
+    {
+      "userID": "1234",
+      "scholarship": [
+        {
+            "scholarshipID": 1,
+            "scholarshipName": "김철수재단 장학",
+            "eligibleMajors": ["화학공학", "경제학과"],
+            "eligibleSemesters": [7, 8],
+            "scholarshipType": "성적 우수 장학금",
+            "ageLimit": 30,
+            "regionalRestrictions": ["Suwon", "Seoul"],
+            "incomeLevelLimit": 8,
+            "applicationPeriod": "2024-01-01~2024-12-31",
+            "scholarshipAmount": 1000000,
+            "numberOfRecipients": 10,
+            "requiredDocuments": "성적증명서",
+            "applicationMethod": "대면접수",
+            "significant": "김철수 행사 참석 필수"
+          }
+      ]
+    }
+  ]
+  
