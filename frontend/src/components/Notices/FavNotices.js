@@ -20,7 +20,7 @@ const FavNotices = ({ scholarships, toggleFavorite }) => {
       {/* <h1>관심 장학</h1> */}
       {paginatedData.map((scholarship) => (
         <ScholarshipCard
-          key={scholarship.id}
+          id={scholarship.id}
           title={scholarship.title}
           foundation={scholarship.foundation}
           views={scholarship.views}
