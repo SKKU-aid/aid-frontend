@@ -1,0 +1,140 @@
+/* 화면 전체를 채우고 중앙 정렬을 위한 스타일 */
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+#root {
+    height: 100%;
+}
+
+/* 회원가입2 컨테이너 스타일 */
+.signup2-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+/* 회원가입2 헤더 스타일 */
+.signup2-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* 회원가입2 제목 스타일 */
+#signup2-title {
+    text-align: left;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.signup2-logo {
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+/* 회원가입2 폼 스타일 */
+.signup2-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: -20px;
+}
+
+.signup2-form label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.signup2-form input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* 전공 드롭다운 스타일 */
+.major-dropdown {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    height: 35px;
+}
+
+/* 성별 및 생년월일 컨테이너 스타일 */
+.gender-birth-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.gender-container, .birth-container {
+    width: 48%;
+}
+
+.gender-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.gender-button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    flex: 1;
+}
+
+.gender-button.active {
+    background-color: #ddd;
+    font-weight: bold;
+}
+
+/* 학기 및 학적 상태 컨테이너 스타일 */
+.semester-status-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.semester-container, .status-container {
+    width: 48%;
+}
+
+/* 회원가입2 버튼 스타일 */
+.signup2-button {
+    margin-top: 20px;
+    width: 120px;
+    padding: 10px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    align-self: flex-end;
+}

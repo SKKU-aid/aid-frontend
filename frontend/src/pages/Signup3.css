@@ -1,0 +1,85 @@
+/* 화면 전체를 채우고 중앙 정렬을 위한 스타일 */
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+#root {
+    height: 100%;
+}
+
+/* 회원가입3 컨테이너 스타일 */
+.signup3-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+/* 회원가입3 헤더 스타일 */
+.signup3-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* 회원가입3 제목 스타일 */
+#signup3-title {
+    text-align: left;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.signup3-logo {
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+/* 회원가입3 폼 스타일 */
+.signup3-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.signup3-form label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.signup3-form input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* 회원가입3 버튼 스타일 */
+.signup3-button {
+    margin-top: 20px;
+    width: 120px;
+    padding: 10px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    align-self: flex-end;
+}
