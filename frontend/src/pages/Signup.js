@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Signup.css';
 import { Button, Box, Modal, Typography } from '@mui/material';
 import CustomTextField from './CustomMUI/CustomTextField';
+import axios from 'axios';
 
 const Signup = () => {
   const [userId, setUserId] = useState('');
@@ -15,30 +16,55 @@ const Signup = () => {
   const isDisabled = !isUsernameAvailable || password === '' || password !== passwordConfirm;
   const navigate = useNavigate();
 
-  const handleIdCheck = () => {
-    if (userId === '') {
+  // 아이디 중복 확인 함수
+  const handleIdCheck = async () => {
+    if (userId.trim() === '') {
+      setAlertMessage('아이디를 입력해주세요.');
+      setModalOpen(true);
+      setTimeout(() => setModalOpen(false), 1500);
+      return;
+    }
+
+    try {
+      // GET 요청으로 쿼리 매개변수 전달
+      const response = await axios.get('http://localhost:8082/register/checkID', {
+        params: { userID: userId.trim() },
+      });
+
+      if (response.data.success) {
+        setIsUsernameAvailable(true);
+        setAlertMessage(response.data.message || '사용 가능한 아이디입니다.');
+      } else {
+        setIsUsernameAvailable(false);
+        setAlertMessage(response.data.message || '이미 존재하는 아이디입니다.');
+      }
+    } catch (error) {
+      console.error('Error during ID check:', error);
       setIsUsernameAvailable(false);
+
+      setAlertMessage(
+        error.response?.data?.message || '아이디 확인 중 문제가 발생했습니다.'
+      );
+    } finally {
       setModalOpen(true);
-      setAlertMessage('다른 아이디를 입력해주세요.');
-      setTimeout(() => {
-        setModalOpen(false);
-      }, 1000);
-    } else {
-      setIsUsernameAvailable(true);
-      setAlertMessage('사용 가능한 아이디입니다.');
-      setModalOpen(true);
-      setTimeout(() => {
-        setModalOpen(false);
-      }, 1000);
+      setTimeout(() => setModalOpen(false), 1500);
     }
   };
 
   const handleSignup = () => {
     if (password !== passwordConfirm) {
-      alert('비밀번호가 일치하지 않습니다.');
-    } else {
-      navigate('/signup2');
+      setAlertMessage('비밀번호가 일치하지 않습니다.');
+      setModalOpen(true);
+      setTimeout(() => setModalOpen(false), 1500);
+      return;
     }
+
+    // 입력한 정보를 localStorage에 저장
+    localStorage.setItem('userID', userId);
+    localStorage.setItem('userPassword', password);
+
+    // 다음 단계로 이동
+    navigate('/signup2');
   };
 
   return (
@@ -50,7 +76,7 @@ const Signup = () => {
       <form className="signup-form" style={{ position: 'relative' }}>
         <CustomTextField
           type="text"
-          placeholder="아이디"
+          placeholder="아이디 (이메일 형식)"
           required
           sx={{ mb: 3, mt: 3 }}
           value={userId}
@@ -59,7 +85,14 @@ const Signup = () => {
         <Button
           variant="text"
           onClick={handleIdCheck}
-          sx={{ color: '#505050', fontWeight: 700, position: 'absolute', top: 8, right: 15, zIndex: 1 }}
+          sx={{
+            color: '#505050',
+            fontWeight: 700,
+            position: 'absolute',
+            top: 8,
+            right: 15,
+            zIndex: 1,
+          }}
         >
           중복확인
         </Button>
@@ -100,7 +133,18 @@ const Signup = () => {
           </Button>
         </Box>
         <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', borderRadius: '5px', boxShadow: '0px 3px 6px rgba(0,0,0,0.3)' }}>
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              backgroundColor: 'white',
+              padding: '20px',
+              borderRadius: '5px',
+              boxShadow: '0px 3px 6px rgba(0,0,0,0.3)',
+            }}
+          >
             <Typography variant="h6">{alertMessage}</Typography>
           </div>
         </Modal>
