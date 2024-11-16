@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './Signup2.css';
 import {
   Button,
-  Autocomplete,
   Box,
   FormControl,
   InputLabel,
@@ -43,7 +42,7 @@ const Signup2 = () => {
 
   const handleNext = () => {
     let formattedBirth = birthDate;
-    
+
     if (birthDate.length === 10) {
       formattedBirth = `${birthDate}T00:00:00`;
     } else if (birthDate.length === 8) {
@@ -66,7 +65,6 @@ const Signup2 = () => {
   return (
     <div className="signup2-container">
       <div className="signup2-header">
-        <img src="/logo.png" alt="SKKU 장학비서" className="signup2-logo" />
         <h1 id="signup2-title">기본 정보 입력</h1>
       </div>
       <form className="signup2-form">
@@ -89,9 +87,6 @@ const Signup2 = () => {
           onChange={(e) => setBirthDate(e.target.value)}
           fullWidth
           variant="outlined"
-          InputProps={{
-            notched: false,
-          }}
           sx={{ mb: 3 }}
         />
         <TextField
@@ -102,19 +97,24 @@ const Signup2 = () => {
           onChange={(e) => setEmail(e.target.value)}
           fullWidth
           variant="outlined"
-          InputProps={{
-            notched: false,
-          }}
           sx={{ mb: 3 }}
         />
-        <Autocomplete
-          value={major || null}
-          onChange={(event, newValue) => setMajor(newValue)}
-          options={majorOptions}
-          renderInput={(params) => (
-            <TextField {...params} label="전공" fullWidth variant="outlined" InputProps={{ notched: false }} sx={{ mb: 3 }} />
-          )}
-        />
+        <FormControl fullWidth sx={{ mb: 3 }} variant="outlined">
+          <InputLabel id="major-select-label">전공</InputLabel>
+          <Select
+            labelId="major-select-label"
+            id="major-select"
+            value={major}
+            label="전공"
+            onChange={(e) => setMajor(e.target.value)}
+          >
+            {majorOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <FormControl fullWidth sx={{ mb: 3 }} variant="outlined">
           <InputLabel id="semester-select-label">현재 학기</InputLabel>
           <Select
