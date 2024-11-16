@@ -10,25 +10,32 @@ const CustomNotices = ({ userID, scholarships, toggleFavorite }) => {
   const handlePageChange = (event, value) => {
     setPage(value);
   };
-
+  
   // const recommendedScholarships = scholarships.filter((scholarship) => scholarship.isRecommended);
   const paginatedData = scholarships.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      {paginatedData.map((scholarship) => (
+      {paginatedData.length > 0 ? (
+        paginatedData.map((scholarship) => (
         <ScholarshipCard
           id={scholarship.scholarshipID}
           userID={userID}
           title={scholarship.scholarshipName}
           foundation={scholarship.foundation}
           views={scholarship.views}
-          tags={scholarship.eligibleMajors}
+          tags={scholarship.tags}
           date={scholarship.applicationPeriod}
-          isFavorite={scholarship.isFavorite}
-          onToggleFavorite={() => toggleFavorite(userID, scholarship.scholarshipID)}
+          isFavorite={scholarship.isFav}
+          onToggleFavorite={() => toggleFavorite(userID, scholarship.isFav, scholarship.scholarshipID)}
           />
-      ))}
+      ))):(
+        <img
+        src="/noResult.png"
+        alt="No Results"
+        style={{ width: '300px', height: 'auto', marginBottom: '20px' }}
+      />
+      )}
       <Pagination
         count={Math.ceil(scholarships.length / itemsPerPage)}
         page={page}

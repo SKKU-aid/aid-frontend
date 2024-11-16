@@ -29,7 +29,7 @@ const ScholarshipCard = ({ id, userID, scholarshipID, title, foundation, tags, d
 
   const handleFavoriteClick = (event) => {
     event.stopPropagation(); // IconButton 클릭 시 카드의 클릭 이벤트 전파 방지
-    onToggleFavorite(); // 즐겨찾기 상태를 토글
+    onToggleFavorite(userID, isFavorite, scholarshipID); // 즐겨찾기 상태를 토글
   };
 
   return (
