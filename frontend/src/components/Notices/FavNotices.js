@@ -13,7 +13,7 @@ const FavNotices = ({userID, scholarships,toggleFavorite }) => {
   };
 
   const paginatedData = scholarships.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       
@@ -21,15 +21,15 @@ const FavNotices = ({userID, scholarships,toggleFavorite }) => {
           {paginatedData.length > 0 ? (
             paginatedData.map((scholarship) => (
               <ScholarshipCard
-                id={scholarship.scholarshipID}
+                id={scholarship._id}
                 userID={userID}
                 title={scholarship.scholarshipName}
                 foundation={scholarship.foundation}
                 views={scholarship.views}
-                tags={scholarship.eligibleMajors}
+                tags={scholarship.tags}
                 date={scholarship.applicationPeriod}
-                isFavorite={scholarship.isFavorite}
-                onToggleFavorite={() => toggleFavorite(userID, scholarship.scholarshipID)}
+                isFavorite={true}
+                onToggleFavorite={() => toggleFavorite(userID, true, scholarship._id)}
               />
             ))
           ) : (

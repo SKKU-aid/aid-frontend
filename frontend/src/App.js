@@ -27,7 +27,7 @@ const App = () => {
   useEffect(() => {
     // 로컬 스토리지에서 userID가 존재하면 로그인 상태로 설정
     //UserID를 그냥 1234로 해줘.
-    localStorage.setItem('userID', '1234');
+    localStorage.setItem('userID', 'example1@skku.edu');
     if (localStorage.getItem('userID')) {
       setIsLogin(true);
     }

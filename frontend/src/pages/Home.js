@@ -1,161 +1,124 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Divider, Tab, Tabs, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Container, Divider, Tab, Tabs } from '@mui/material';
 import Header from '../components/Common/Header';
 import AllNotices from '../components/Notices/AllNotices';
 import CustomNotices from '../components/Notices/CustomNotices';
 import FavNotices from '../components/Notices/FavNotices';
-import scholarshipsData from '../data/dummy2.json';
-import recommededData from '../data/recommended.json';
-import FavData from '../data/user_dummy.json'
-import SearchField from '../components/Common/SearchField';
-import Filter from '../components/Common/Filter';
+import axios from 'axios'; // Axios로 API 호출
 
 const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const [scholarships, setScholarships] = useState([]);
-  const [recommendedScholarships, setRecommendedScholarships] = useState([]);
+  const [allScholarships, setAllScholarships] = useState([]);
+  const [customScholarships, setCustomScholarships] = useState([]);
   const [favScholarships, setFavScholarships] = useState([]);
-  const userID = localStorage.getItem('userID'); // 로컬 스토리지에서 userID를 가져옴
-  
   const [allSearchQuery, setAllSearchQuery] = useState('');
   const [customSearchQuery, setCustomSearchQuery] = useState('');
   const [favSearchQuery, setFavSearchQuery] = useState('');
+  const [sortOption, setSortOption] = useState('recent');
+  const userID = localStorage.getItem('userID'); // 사용자 ID 가져오기
 
-  const [sortOption, setSortOption] = useState('recent'); 
+  // 모든 데이터를 다시 가져오는 함수
+  const refreshData = async () => {
+    try {
+      const allResponse = await axios.get(`http://localhost:8082/scholarships?userID=${userID}`);
+      if (allResponse.data.success) {
+        setAllScholarships(allResponse.data.data);
+      }
+
+      const customResponse = await axios.get(`http://localhost:8082/users/${userID}/scholarships?type=custom`);
+      if (customResponse.data.success) {
+        setCustomScholarships(customResponse.data.data);
+      }
+
+      const favResponse = await axios.get(`http://localhost:8082/users/${userID}/fav-scholarships`);
+      if (favResponse.data.success) {
+        setFavScholarships(favResponse.data.data);
+      }
+    } catch (error) {
+      console.error('Failed to refresh data:', error);
+    }
+  };
 
   useEffect(() => {
-    setScholarships(scholarshipsData.data);
-    setRecommendedScholarships(recommededData.data);
-    setFavScholarships(FavData.data);
-    // scholarships을 localStorage에 저장
-    // localStorage.setItem('scholarships', JSON.stringify(scholarshipsData));
-  }, []);
+    refreshData(); // 처음 로드 시 모든 데이터를 가져옴
+  }, [userID]);
 
-  const toggleFavorite = (userID, id) => {
-    setScholarships((prevScholarships) =>
-      prevScholarships.map((scholarship) =>
-        scholarship.scholarshipID === id
-          ? { ...scholarship, isFavorite: !scholarship.isFavorite }
-          : scholarship
-      )
-    );
-  };
-
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
-  };
-
-  const handleAllSearchChange = (event) => setAllSearchQuery(event.target.value);
-  const handleCustomSearchChange = (event) => setCustomSearchQuery(event.target.value);
-  const handleFavSearchChange = (event) => setFavSearchQuery(event.target.value);
-
-  const handleSortChange = (event) => {
-    setSortOption(event.target.value);
-  };
-
-  const filteredAllScholarships = scholarships.filter((scholarship) =>
-    scholarship.scholarshipName.toLowerCase().includes(allSearchQuery.toLowerCase()) 
-  );
-
-  const filteredCustomScholarships = recommendedScholarships.filter((scholarship) =>
-    scholarship.scholarshipName.toLowerCase().includes(customSearchQuery.toLowerCase()) 
-  );
-
-  const filteredFavScholarships = favScholarships
-    .filter((scholarship) => scholarship.isFavorite)
-    .filter((scholarship) =>
-      scholarship.scholarshipName.toLowerCase().includes(favSearchQuery.toLowerCase()) 
-    );
-
-  // !! 필터 정렬 함수 (데이터 값에 따라 수정 필요)
-  const sortScholarships = (scholarshipsToSort) => {
-    switch (sortOption) {
-      case 'recent':
-        // Assuming 'applicationPeriod' contains the start date, sorting by the earliest application start date
-        return scholarshipsToSort.sort((a, b) => {
-          const dateA = new Date(a.applicationPeriod.split('~')[0]);
-          const dateB = new Date(b.applicationPeriod.split('~')[0]);
-          return dateA - dateB;
-        });
-      case 'deadline':
-        // Sort by the end date of the application period
-        return scholarshipsToSort.sort((a, b) => {
-          const dateA = new Date(a.applicationPeriod.split('~')[1]);
-          const dateB = new Date(b.applicationPeriod.split('~')[1]);
-          return dateA - dateB;
-        });
-      case 'views':
-        // If you have a 'views' property in your data, otherwise remove this case
-        return scholarshipsToSort.sort((a, b) => b.views - a.views);
-      default:
-        return scholarshipsToSort;
+  // 관심 장학 추가 함수
+  const addToFavorites = async (scholarshipID) => {
+    try {
+      const response = await axios.post(`http://localhost:8082/users/${userID}/fav-scholarships`, {
+        userID,
+        scholarshipID,
+      });
+      if (response.data.success) {
+        console.log('관심 장학 추가 성공:', response.data.message);
+        await refreshData(); // 성공 후 데이터 새로고침
+      } else {
+        console.error('Failed to add to favorites:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error adding to favorites:', error);
     }
-  };  
+  };
 
-  const sortedAllScholarships = sortScholarships([...filteredAllScholarships]);
-  const sortedCustomScholarships = sortScholarships([...filteredCustomScholarships]);
-  const sortedFavScholarships = sortScholarships([...filteredFavScholarships]);
+  // 관심 장학 삭제 함수
+  const removeFromFavorites = async (scholarshipID) => {
+    try {
+      const response = await axios.delete(`http://localhost:8082/users/${userID}/fav-scholarships`, {
+        data: { userID, scholarshipID },
+      });
+      if (response.data.success) {
+        console.log('관심 장학 삭제 성공:', response.data.message);
+        await refreshData(); // 성공 후 데이터 새로고침
+      } else {
+        console.error('Failed to remove from favorites:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error removing from favorites:', error);
+    }
+  };
+
+  // 관심 상태 토글 함수
+  const toggleFavorite = (userID, isFavorite, scholarshipID) => {
+    console.log('isFavorite:', isFavorite);
+    console.log('scholarshipID:', scholarshipID);
+    if (isFavorite) {
+      removeFromFavorites(scholarshipID); // 관심 장학 삭제
+    } else {
+      addToFavorites(scholarshipID); // 관심 장학 추가
+    }
+  };
+
+  // 검색 및 정렬 처리
+  const filteredAllScholarships = allScholarships.filter((scholarship) =>
+    scholarship.scholarshipName.toLowerCase().includes(allSearchQuery.toLowerCase())
+  );
+  const sortedAllScholarships = filteredAllScholarships.sort((a, b) =>
+    sortOption === 'recent' ? new Date(b.applicationPeriod) - new Date(a.applicationPeriod) : b.views - a.views
+  );
 
   return (
     <div>
       <Header isLogin={isLogin} />
       <div style={{ width: '100vw', backgroundColor: 'white', overflowX: 'hidden' }}>
         <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '85%', margin: 'auto' }}>
-          <Tabs
-            value={activeTab}
-            onChange={handleTabChange}
-            indicatorColor="green"
-            textColor="inherit"
-          >
-            <Tab label="모든 장학" sx={tabStyle(activeTab === 0)} />
-            <Tab label="맞춤형 장학" sx={tabStyle(activeTab === 1)} />
-            <Tab label="관심 장학" sx={tabStyle(activeTab === 2)} />
+          <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)}>
+            <Tab label="모든 장학" />
+            <Tab label="맞춤형 장학" />
+            <Tab label="관심 장학" />
           </Tabs>
-
           <Divider sx={{ width: '100%' }} />
-
-          <div style={{ width: '100%', display: 'flex', marginTop: '20px', alignItems: 'center', justifyContent: 'space-between' }}>
-            {activeTab === 0 && (
-              <SearchField
-                placeholder="모든 장학 검색"
-                value={allSearchQuery}
-                onChange={handleAllSearchChange}
-              />
-            )}
-            {activeTab === 1 && (
-              <SearchField
-                placeholder="맞춤형 장학 검색"
-                value={customSearchQuery}
-                onChange={handleCustomSearchChange}
-              />
-            )}
-            {activeTab === 2 && (
-              <SearchField
-                placeholder="관심 장학 검색"
-                value={favSearchQuery}
-                onChange={handleFavSearchChange}
-              />
-            )}
-            <Filter sortOption={sortOption} onSortChange={handleSortChange} />
-          </div>
         </Container>
       </div>
-
-      <div style={{ padding: '30px 120px 50px', backgroundColor: 'white' }}>
-        {activeTab === 0 && <AllNotices scholarships={sortedAllScholarships} toggleFavorite={toggleFavorite} />}
-        {activeTab === 1 && <CustomNotices scholarships={sortedCustomScholarships} toggleFavorite={toggleFavorite} />}
-        {activeTab === 2 && <FavNotices scholarships={sortedFavScholarships} toggleFavorite={toggleFavorite} />}
+      <div style={{ padding: '30px', backgroundColor: 'white' }}>
+        {activeTab === 0 && (
+          <AllNotices scholarships={sortedAllScholarships} toggleFavorite={toggleFavorite} />
+        )}
+        {activeTab === 1 && <CustomNotices scholarships={customScholarships} toggleFavorite={toggleFavorite} />}
+        {activeTab === 2 && <FavNotices scholarships={favScholarships} toggleFavorite={toggleFavorite} />}
       </div>
     </div>
   );
 };
-
-const tabStyle = (isActive) => ({
-  color: isActive ? '#4D755B' : 'black',
-  fontWeight: isActive ? 600 : 600,
-  fontSize: '16px',
-  padding: '18px 10px',
-  borderBottom: isActive ? '2px solid #4D755B' : 'none',
-});
 
 export default Home;

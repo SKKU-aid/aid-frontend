@@ -18,20 +18,21 @@ const AllNotices = ({ scholarships, userID, toggleFavorite }) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-      {paginatedData.map((scholarship) => (
+      {paginatedData.length > 0 ?(
+        paginatedData.map((scholarship) => (
         <ScholarshipCard
           id={scholarship.scholarshipID}
           userID={userID}
           title={scholarship.scholarshipName}
           foundation={scholarship.foundation}
           views={scholarship.views}
-          tags={scholarship.eligibleMajors}
+          tags={scholarship.tags}
           date={scholarship.applicationPeriod}
-          isFavorite={scholarship.isFavorite}
+          isFavorite={scholarship.isFav}
           // isFavorite={scholarship.isFavorite}
-          onToggleFavorite={() => toggleFavorite(userID, scholarship.scholarshipID)}
+          onToggleFavorite={() => toggleFavorite(userID, scholarship.isFav,  scholarship.scholarshipID)}
           />
-      ))}
+      ))):(<p>장학금이 없습니다.</p>)}
       <Pagination
         count={Math.ceil(scholarships.length / itemsPerPage)}
         page={page}
@@ -41,5 +42,4 @@ const AllNotices = ({ scholarships, userID, toggleFavorite }) => {
     </div>
   );
 };
-
 export default AllNotices;
