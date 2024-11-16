@@ -32,7 +32,16 @@ const AllNotices = ({ scholarships, userID, toggleFavorite }) => {
           // isFavorite={scholarship.isFavorite}
           onToggleFavorite={() => toggleFavorite(userID, scholarship.isFav,  scholarship.scholarshipID)}
           />
-      ))):(<p>장학금이 없습니다.</p>)}
+      ))):(
+        <div style={{ textAlign: 'center', marginTop: '50px' }}>
+        <img
+          src="/noResult.png"
+          alt="No Favorite Scholarships"
+          style={{ width: '300px', height: 'auto', marginBottom: '20px' }}
+        />
+        <p>장학 공고가 없습니다</p>
+      </div>
+      )}
       <Pagination
         count={Math.ceil(scholarships.length / itemsPerPage)}
         page={page}
