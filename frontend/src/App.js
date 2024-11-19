@@ -22,19 +22,7 @@ const theme = createTheme({
 });
 
 const App = () => {
-  const [isLogin, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    // 로컬 스토리지에서 userID가 존재하면 로그인 상태로 설정
-    //UserID를 그냥 1234로 해줘.
-    localStorage.setItem('userID', 'example1@skku.edu');
-    if (localStorage.getItem('userID')) {
-      setIsLogin(true);
-    }
-  }, []);
-
   const handleLogout = () => {
-    setIsLogin(false);
     localStorage.removeItem('userID'); // 로그아웃 시 로컬 스토리지에서 userID 제거
   };
 
@@ -44,8 +32,8 @@ const App = () => {
         <div style={{ height: '100%', width: '100vw'}}>
         <Routes>
             <>
-              <Route path="/" element={<Home isLogin={false} setIsLogin={setIsLogin} />} />
-              <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
+              <Route path="/" element={<Home  />} />
+              <Route path="/login" element={<Login  />} />
               <Route path="/signUp" element={<Signup/>} />
               <Route path="/notice/:id" element={<NoticeDetail />} />
               <Route path="/signUp2" element={<Signup2/>} />

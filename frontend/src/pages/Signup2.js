@@ -50,6 +50,8 @@ const Signup2 = () => {
       formattedBirth = `${birthDate.slice(0, 4)}-${birthDate.slice(4, 6)}-${birthDate.slice(6, 8)}T00:00:00`;
     }
 
+
+
     const step2Data = {
       gender,
       birthDate: formattedBirth,
@@ -58,6 +60,13 @@ const Signup2 = () => {
       currentSemester,
       academicStatus,
     };
+
+    localStorage.setItem('gender', gender);
+    localStorage.setItem('birthDate', formattedBirth);
+    localStorage.setItem('email', email);
+    localStorage.setItem('major', major);
+    localStorage.setItem('currentSemester', currentSemester);
+    localStorage.setItem('academicStatus', academicStatus);
 
     navigate('/signup3');
     console.log('step2Data', step2Data);
@@ -112,8 +121,20 @@ const Signup2 = () => {
           onChange={(event, newValue) => setMajor(newValue)}
           options={majorOptions}
           renderInput={(params) => (
-            <TextField {...params} label="전공" fullWidth variant="outlined" InputProps={{ notched: false }} sx={{ mb: 3 }} />
+            <TextField
+              {...params}
+              label="전공"
+              placeholder="전공을 검색하세요"
+              fullWidth
+              variant="outlined"
+              InputProps={{
+                ...params.InputProps,
+                notched: false,
+              }}
+              sx={{ mb: 3 }}
+            />
           )}
+          sx={{ mb: 3 }}
         />
         <FormControl fullWidth sx={{ mb: 3 }} variant="outlined">
           <InputLabel id="semester-select-label">현재 학기</InputLabel>
