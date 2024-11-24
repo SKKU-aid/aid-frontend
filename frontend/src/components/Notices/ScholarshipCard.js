@@ -1,13 +1,10 @@
 // src/components/Notices/ScholarshipCard.js
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Card, CardContent, Typography, Chip, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useNavigate } from 'react-router-dom';
-
-const fs = window.require ? window.require('fs') : null;
-const path = window.require ? window.require('path') : null;
 
 const calculateDDay = (period) => {
   const [start, end] = period.split('~');
@@ -52,7 +49,7 @@ const ScholarshipCard = ({ id, userID, scholarshipID, title, foundation, tags, d
         <div style={{ flex: 3, textAlign: 'center' }}>
           <Typography variant="h6" style={{ fontWeight: 'bold', marginBottom: '8px' }}>{title}</Typography>
           <Typography variant="body2" color="textSecondary">
-            {foundation} 조회수: {views}
+            {foundation !== "Unknown Foundation" ? foundation : ''} 조회수: {views}
           </Typography>
         </div>
 
