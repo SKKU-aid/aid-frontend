@@ -4,19 +4,22 @@ import Header from '../components/Common/Header';
 import AllNotices from '../components/Notices/AllNotices';
 import CustomNotices from '../components/Notices/CustomNotices';
 import FavNotices from '../components/Notices/FavNotices';
-import axios from 'axios'; // Axios로 API 호출
+import axios from 'axios'; 
+import SearchField from '../components/Common/SearchField';
 
 const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
+
   const [allScholarships, setAllScholarships] = useState([]);
   const [customScholarships, setCustomScholarships] = useState([]);
   const [favScholarships, setFavScholarships] = useState([]);
-  const [allSearchQuery, setAllSearchQuery] = useState('');
-  const [sortOption, setSortOption] = useState('recent');
 
-  const userID = localStorage.getItem('userID'); // 사용자 ID 가져오기
-  //const userID = "";
-  // 모든 데이터를 다시 가져오는 함수
+
+  const [allSearchQuery, setAllSearchQuery] = useState('');
+  const [customSearchQuery, setCustomSearchQuery] = useState('');
+  const [favSearchQuery, setFavSearchQuery] = useState('');
+
+  const userID = localStorage.getItem('userID');
   const refreshData = async () => {
     console.log(userID);
     try {
@@ -60,7 +63,7 @@ const Home = ({ isLogin }) => {
 
   useEffect(() => {
     refreshData(); // 컴포넌트가 처음 로드될 때 데이터 가져오기
-  }, [userID]);
+  }, []);
 
   // 관심 장학 추가 함수
   const addToFavorites = async (scholarshipID) => {
@@ -113,16 +116,33 @@ const Home = ({ isLogin }) => {
     }
   };
 
-  // 검색 및 정렬 처리
-  const filteredAllScholarships = allScholarships.filter((scholarship) =>
-    scholarship.scholarshipName.toLowerCase().includes(allSearchQuery.toLowerCase())
-  );
-  const sortedAllScholarships = filteredAllScholarships.sort((a, b) =>
-    sortOption === 'recent'
-      ? new Date(b.applicationPeriod) - new Date(a.applicationPeriod)
-      : b.views - a.views
-  );
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
 
+   // 각 탭별 검색어 변경 함수
+   const handleAllSearchChange = (event) => setAllSearchQuery(event.target.value);
+   const handleCustomSearchChange = (event) => setCustomSearchQuery(event.target.value);
+   const handleFavSearchChange = (event) => setFavSearchQuery(event.target.value);
+ 
+   // 각 탭별 검색어 필터링
+   const filteredAllScholarships = allScholarships.length > 0 && allScholarships.filter((scholarship) =>
+     scholarship.scholarshipName.toLowerCase().includes(allSearchQuery.toLowerCase()) ||
+     scholarship.foundation.toLowerCase().includes(allSearchQuery.toLowerCase())
+   );
+ 
+   const filteredCustomScholarships = customScholarships.length > 0 && customScholarships.filter((scholarship) =>
+     scholarship.scholarshipName.toLowerCase().includes(customSearchQuery.toLowerCase()) ||
+     scholarship.foundation.toLowerCase().includes(customSearchQuery.toLowerCase())
+   );
+ 
+   const filteredFavScholarships = favScholarships.length > 0 && favScholarships
+     .filter((scholarship) => scholarship.isFavorite)
+     .filter((scholarship) =>
+       scholarship.scholarshipName.toLowerCase().includes(favSearchQuery.toLowerCase()) ||
+       scholarship.foundation.toLowerCase().includes(favSearchQuery.toLowerCase())
+     );
+  
   return (
     <div>
       <Header isLogin={isLogin} />
@@ -142,17 +162,41 @@ const Home = ({ isLogin }) => {
             <Tab label="관심 장학" />
           </Tabs>
           <Divider sx={{ width: '100%' }} />
+
+          <div style={{ display: 'flex', marginTop: '20px' }}>
+            {activeTab === 0 && (
+              <SearchField
+                placeholder="모든 장학 검색"
+                value={allSearchQuery}
+                onChange={handleAllSearchChange}
+              />
+            )}
+            {activeTab === 1 && (
+              <SearchField
+                placeholder="맞춤형 장학 검색"
+                value={customSearchQuery}
+                onChange={handleCustomSearchChange}
+              />
+            )}
+            {activeTab === 2 && (
+              <SearchField
+                placeholder="관심 장학 검색"
+                value={favSearchQuery}
+                onChange={handleFavSearchChange}
+              />
+            )}
+          </div>
         </Container>
       </div>
       <div style={{ padding: '30px', backgroundColor: 'white' }}>
         {activeTab === 0 && (
-          <AllNotices userID={userID} scholarships={sortedAllScholarships} toggleFavorite={toggleFavorite} />
+          <AllNotices userID={userID} scholarships={filteredAllScholarships} toggleFavorite={toggleFavorite} />
         )}
         {activeTab === 1 && (
-          <CustomNotices userID={userID} scholarships={customScholarships} toggleFavorite={toggleFavorite} />
+          <CustomNotices userID={userID} scholarships={filteredCustomScholarships} toggleFavorite={toggleFavorite} />
         )}
         {activeTab === 2 && (
-          <FavNotices userID={userID} scholarships={favScholarships} toggleFavorite={toggleFavorite} />
+          <FavNotices userID={userID} scholarships={filteredFavScholarships} toggleFavorite={toggleFavorite} />
         )}
       </div>
     </div>
