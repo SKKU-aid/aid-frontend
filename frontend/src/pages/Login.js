@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import axios from 'axios';
 
-const Login = ({ setIsLogin }) => {
+const Login = () => {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [loginFail, setLoginFail] = useState(false);
@@ -19,7 +19,6 @@ const Login = ({ setIsLogin }) => {
 
       if (response.data.success) {
         // 로그인 성공
-        setIsLogin(true);
         setLoginFail(false);
         setErrorMessage('');
         // localStorage에 userID 저장 userId : 이메일 형식 ex. test@test.com. 여기서 @ 앞 test만 뽑아서 저장
@@ -29,13 +28,11 @@ const Login = ({ setIsLogin }) => {
         navigate('/home');
       } else {
         // 로그인 실패
-        setIsLogin(false);
         setLoginFail(true);
         setErrorMessage(response.data.message || '로그인에 실패했습니다.');
       }
     } catch (error) {
       // 네트워크 또는 서버 오류 처리
-      setIsLogin(false);
       setLoginFail(true);
       setErrorMessage(
         error.response?.data?.message || '서버와의 통신 중 오류가 발생했습니다.'

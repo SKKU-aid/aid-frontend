@@ -19,6 +19,7 @@ const AllNotices = ({ scholarships, userID, toggleFavorite }) => {
       {paginatedData.length > 0 ?(
         paginatedData.map((scholarship) => (
         <ScholarshipCard
+          key={scholarship.scholarshipID}
           id={scholarship.scholarshipID}
           userID={userID}
           title={scholarship.scholarshipName}

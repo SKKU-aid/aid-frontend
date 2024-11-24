@@ -23,13 +23,9 @@ const Home = ({ isLogin }) => {
   const [userID, setUserID] = useState(null);
 
   useEffect(() => {
-    const user = localStorage.getItem('userID');
+    const user = localStorage.getItem('currentUserID');
     setUserID(user);
   }, []);
-
-  useEffect(() => {
-    refreshData(); 
-  }, [userID]);
 
   const refreshData = async () => {
     try {
@@ -60,6 +56,7 @@ const Home = ({ isLogin }) => {
         const favResponse = await axios.get(
           `http://localhost:8082/users/${userID}/fav-scholarships`
         );
+        console.log('관심 장학 데이터:', favResponse.data);
         if (favResponse.data.success) {
           setFavScholarships(favResponse.data.data);
         }
@@ -140,12 +137,11 @@ const Home = ({ isLogin }) => {
   ) || [];
   
   const filteredFavScholarships = favScholarships
-    .filter((scholarship) => scholarship.isFavorite)
     .filter((scholarship) =>
       scholarship.scholarshipName.toLowerCase().includes(favSearchQuery.toLowerCase()) ||
       scholarship.foundation.toLowerCase().includes(favSearchQuery.toLowerCase())
     ) || [];
-  
+
     const sortScholarships = (scholarshipsToSort) => {
       switch (sortOption) {
         case 'recent':
@@ -166,6 +162,11 @@ const Home = ({ isLogin }) => {
     const sortedAllScholarships = sortScholarships([...filteredAllScholarships]);
     const sortedCustomScholarships = sortScholarships([...filteredCustomScholarships]);
     const sortedFavScholarships = sortScholarships([...filteredFavScholarships]);  
+
+
+    useEffect(() => {
+      refreshData(); 
+    }, [isLogin, activeTab]);
 
   return (
     <div>

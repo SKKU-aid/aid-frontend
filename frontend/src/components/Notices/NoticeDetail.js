@@ -44,7 +44,7 @@ const NoticeDetail = () => {
         if (!content || (Array.isArray(content) && content.length === 0)) {
             return null;
         }
-
+    
         return (
             <Typography variant="subtitle1" sx={{ fontWeight: 600, marginTop: '12px' }}>
                 <span style={{ fontWeight: 900 }}>{title}</span> : {content}
@@ -101,7 +101,9 @@ const NoticeDetail = () => {
                         {renderSubtitle('선발혜택', formatAmount(notice?.scholarshipAmount))}
                         {renderSubtitle('접수방법', notice?.applicationMethod)}
                         {renderSubtitle('지원 가능 학과', formatArrayToString(notice?.eligibleMajors))}
-                        {renderSubtitle('지원 가능 학기', formatArrayToString(notice?.eligibleSemesters) + ' 학기')}
+                        { notice?.eligibleSemesters && notice.eligibleSemesters.length > 0 && notice.eligibleSemesters != -1 && (
+                            renderSubtitle('지원 가능 학기', formatArrayToString(notice?.eligibleSemesters) + ' 학기')
+                        )}
                         {renderSubtitle('나이제한', notice?.ageLimit && `${notice.ageLimit}세 이하`)}
                         {renderSubtitle('지역제한', formatArrayToString(notice?.regionalRestrictions))}
                         {renderSubtitle('소득분위', notice?.incomeLevelLimit && `${notice.incomeLevelLimit}분위 이하`)}
