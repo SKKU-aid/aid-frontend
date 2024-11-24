@@ -2,21 +2,25 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Paper, Typography, Divider, Container, Chip, IconButton, Button } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useParams } from 'react-router-dom';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useParams, useLocation } from 'react-router-dom';
 import Header from '../Common/Header';
 import { useNavigate } from 'react-router-dom';
+import { addToFavorites, removeFromFavorites } from '../../api/favApi';
 
 const NoticeDetail = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { id } = useParams();
+    const userID = localStorage.getItem('currentUserID');
     const [notice, setNotice] = useState(null);
+    const [isFavorite, setIsFavorite] = useState(location.state?.isFav || false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     
     useEffect(() => {
         const fetchScholarshipDetail = async () => {
             try {
-                const userID = localStorage.getItem('currentUserID'); 
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/scholarships/${id}`, {
                     params: { userID }
                 });
@@ -63,16 +67,26 @@ const NoticeDetail = () => {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
+    const handleToggleFavorite = (userID, isFavorite, scholarshipID) => {
+        if (!userID) return; // userID가 없으면 아무 작업도 하지 않음
+        setIsFavorite(!isFavorite);
+        
+        if (isFavorite) {
+          removeFromFavorites(userID, scholarshipID); // 관심 장학 삭제
+        } else {
+          addToFavorites(userID, scholarshipID); // 관심 장학 추가
+        }
+    };
+
     return (
         <div>
             <Header isLogin={true}/>
             <Container sx={{mt: '50px'}}> 
                 <Paper elevation={3} sx={{ padding: '25px', margin: '15px 30px', borderRadius: '15px' }}>
                     <Container sx={{ p: 3 }}>
-                        <IconButton sx={{ p: '0', mb: '15px' }}>
-                            <FavoriteIcon />
+                        <IconButton onClick={() => handleToggleFavorite(userID, isFavorite, id)} sx={{ p: '0', mb: '15px' }}>
+                            {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
                         </IconButton>
-
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <Typography variant="h5" sx={{ fontWeight: 700 }}>
                                 {notice?.scholarshipName}

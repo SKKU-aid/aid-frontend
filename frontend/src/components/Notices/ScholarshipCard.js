@@ -21,7 +21,7 @@ const ScholarshipCard = ({ id, userID, scholarshipID, title, foundation, tags, d
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/notice/${id}`);
+    navigate(`/notice/${id}`, { state: { id: id, isFav: isFavorite } });
   };
 
   const handleFavoriteClick = (event) => {
