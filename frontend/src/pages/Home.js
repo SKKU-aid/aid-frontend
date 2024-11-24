@@ -7,6 +7,7 @@ import FavNotices from '../components/Notices/FavNotices';
 import axios from 'axios'; 
 import SearchField from '../components/Common/SearchField';
 import Filter from '../components/Common/Filter';
+import { addToFavorites, removeFromFavorites } from '../api/favApi';
 
 const Home = ({ isLogin }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -24,9 +25,15 @@ const Home = ({ isLogin }) => {
 
   useEffect(() => {
     const user = localStorage.getItem('currentUserID');
-    setUserID(user);
+    setUserID(user); // userID 초기화
   }, []);
-
+  
+  useEffect(() => {
+    if (userID !== null) { // userID가 초기화된 이후에만 호출
+      refreshData();
+    } 
+  }, [userID, activeTab]); // userID와 activeTab 변경 시 데이터 새로고침
+  
   const refreshData = async () => {
     try {
       // 모든 장학 데이터
@@ -37,6 +44,7 @@ const Home = ({ isLogin }) => {
       );
       if (allResponse.data.success) {
         setAllScholarships(allResponse.data.data);
+        console.log('모든 장학 데이터:', allResponse.data.data);
       }
 
       // 추천 장학 데이터 (userID가 있을 때만 호출)
@@ -46,6 +54,7 @@ const Home = ({ isLogin }) => {
         );
         if (customResponse.data.success) {
           setCustomScholarships(customResponse.data.data);
+          console.log('추천 장학 데이터:', customResponse.data.data);
         }
       } else {
         setCustomScholarships([]); // userID가 없으면 빈 리스트로 초기화
@@ -56,9 +65,9 @@ const Home = ({ isLogin }) => {
         const favResponse = await axios.get(
           `http://localhost:8082/users/${userID}/fav-scholarships`
         );
-        console.log('관심 장학 데이터:', favResponse.data);
         if (favResponse.data.success) {
           setFavScholarships(favResponse.data.data);
+          console.log('관심 장학 데이터:', favResponse.data.data);
         }
       } else {
         setFavScholarships([]); // userID가 없으면 빈 리스트로 초기화
@@ -68,54 +77,55 @@ const Home = ({ isLogin }) => {
     }
   };
 
-  // 관심 장학 추가 함수
-  const addToFavorites = async (scholarshipID) => {
+  const toggleFavorite = async (userID, isFavorite, scholarshipID) => {
     if (!userID) return; // userID가 없으면 아무 작업도 하지 않음
-
-    try {
-      const response = await axios.post(
-        `http://localhost:8082/users/${userID}/fav-scholarships`,
-        { userID, scholarshipID }
+  
+    // Optimistic UI 업데이트
+    const optimisticUpdate = (list) =>
+      list.map((scholarship) =>
+        scholarship.scholarshipID === scholarshipID
+          ? { ...scholarship, isFav: !isFavorite }
+          : scholarship
       );
-      if (response.data.success) {
-        console.log('관심 장학 추가 성공:', response.data.message);
-        await refreshData(); // 성공 후 데이터 새로고침
+  
+    if (activeTab === 0) {
+      setAllScholarships(optimisticUpdate(allScholarships));
+    } else if (activeTab === 1) {
+      setCustomScholarships(optimisticUpdate(customScholarships));
+    } else if (activeTab === 2) {
+      setFavScholarships(optimisticUpdate(favScholarships));
+    }
+  
+    try {
+      // 관심 상태 변경
+      if (isFavorite) {
+        await removeFromFavorites(userID, scholarshipID);
+        console.log('관심 장학 삭제 성공');
       } else {
-        console.error('Failed to add to favorites:', response.data.message);
+        await addToFavorites(userID, scholarshipID);
+        console.log('관심 장학 추가 성공');
       }
     } catch (error) {
-      console.error('Error adding to favorites:', error);
-    }
-  };
-
-  // 관심 장학 삭제 함수
-  const removeFromFavorites = async (scholarshipID) => {
-    if (!userID) return; // userID가 없으면 아무 작업도 하지 않음
-
-    try {
-      const response = await axios.delete(
-        `http://localhost:8082/users/${userID}/fav-scholarships`,
-        { data: { userID, scholarshipID } }
-      );
-      if (response.data.success) {
-        console.log('관심 장학 삭제 성공:', response.data.message);
-        await refreshData(); // 성공 후 데이터 새로고침
-      } else {
-        console.error('Failed to remove from favorites:', response.data.message);
+      console.error('관심 장학 상태 변경 실패:', error);
+  
+      // API 호출 실패 시 상태 롤백
+      const rollbackUpdate = (list) =>
+        list.map((scholarship) =>
+          scholarship.scholarshipID === scholarshipID
+            ? { ...scholarship, isFav: isFavorite }
+            : scholarship
+        );
+  
+      if (activeTab === 0) {
+        setAllScholarships(rollbackUpdate(allScholarships));
+      } else if (activeTab === 1) {
+        setCustomScholarships(rollbackUpdate(customScholarships));
+      } else if (activeTab === 2) {
+        setFavScholarships(rollbackUpdate(favScholarships));
       }
-    } catch (error) {
-      console.error('Error removing from favorites:', error);
     }
-  };
 
-  // 관심 상태 토글 함수
-  const toggleFavorite = (userID, isFavorite, scholarshipID) => {
-    if (!userID) return; // userID가 없으면 아무 작업도 하지 않음
-    if (isFavorite) {
-      removeFromFavorites(scholarshipID); // 관심 장학 삭제
-    } else {
-      addToFavorites(scholarshipID); // 관심 장학 추가
-    }
+    refreshData();
   };
 
   const handleSortChange = (event) => {
@@ -162,11 +172,6 @@ const Home = ({ isLogin }) => {
     const sortedAllScholarships = sortScholarships([...filteredAllScholarships]);
     const sortedCustomScholarships = sortScholarships([...filteredCustomScholarships]);
     const sortedFavScholarships = sortScholarships([...filteredFavScholarships]);  
-
-
-    useEffect(() => {
-      refreshData(); 
-    }, [isLogin, activeTab]);
 
   return (
     <div>
