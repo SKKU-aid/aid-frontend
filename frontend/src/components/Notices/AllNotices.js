@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ScholarshipCard from './ScholarshipCard';
-import { Pagination, Container } from '@mui/material';
+import { Pagination } from '@mui/material';
 
 const AllNotices = ({ scholarships, userID, toggleFavorite }) => {
   const itemsPerPage = 8;
@@ -14,10 +14,8 @@ const AllNotices = ({ scholarships, userID, toggleFavorite }) => {
 
   const paginatedData = scholarships && scholarships.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
-  console.log(scholarships)
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {paginatedData.length > 0 ?(
         paginatedData.map((scholarship) => (
         <ScholarshipCard

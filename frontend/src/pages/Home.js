@@ -176,7 +176,7 @@ const Home = ({ isLogin }) => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            width: '85%',
+            width: '80%',
             margin: 'auto',
           }}
         >
@@ -216,7 +216,7 @@ const Home = ({ isLogin }) => {
           </div>
         </Container>
       </div>
-      <div style={{ padding: '30px', backgroundColor: 'white' }}>
+      <div style={{ padding: '30px', backgroundColor: 'white', width: '80%', margin: 'auto' }}>
         {activeTab === 0 && (
           <AllNotices userID={userID} scholarships={sortedAllScholarships} toggleFavorite={toggleFavorite} />
         )}
