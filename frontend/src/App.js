@@ -25,15 +25,11 @@ const App = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    const userID = localStorage.getItem('userID');
+    const userID = localStorage.getItem('currentUserID');
     if (userID) {
       setIsLogin(true);
     }
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('userID'); // 로그아웃 시 로컬 스토리지에서 userID 제거
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -42,12 +38,13 @@ const App = () => {
         <Routes>
             <>
               <Route path="/" element={<Home isLogin={isLogin}/>} />
-              <Route path="/login" element={<Login isLogin={isLogin} />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/signUp" element={<Signup isLogin={isLogin} />} />
               <Route path="/notice/:id" element={<NoticeDetail />} />
               <Route path="/signUp2" element={<Signup2/>} />
               <Route path="/signUp3" element={<Signup3/>} />
               <Route path="/signUp4" element={<Signup4/>} />
+              <Route path="/home" element={<Home isLogin={isLogin}/>} />
             </>
         </Routes>
         </div>
