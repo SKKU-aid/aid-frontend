@@ -7,7 +7,13 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useNavigate } from 'react-router-dom';
 
 const calculateDDay = (period) => {
+  if (!period || !period.includes('~')) 
+    return '알 수 없음';
+
   const [start, end] = period.split('~');
+  if (!end || isNaN(new Date(end).getTime()))
+    return '알 수 없음';
+
   const endDate = new Date(end.trim());
   const today = new Date();
   const diffDays = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
