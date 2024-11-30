@@ -8,11 +8,11 @@ import { useNavigate } from 'react-router-dom';
 
 const calculateDDay = (period) => {
   if (!period || !period.includes('~')) 
-    return '알 수 없음';
+    return '-';
 
   const [start, end] = period.split('~');
   if (!end || isNaN(new Date(end).getTime()))
-    return '알 수 없음';
+    return '-';
 
   const endDate = new Date(end.trim());
   const today = new Date();
@@ -22,8 +22,8 @@ const calculateDDay = (period) => {
 
 const ScholarshipCard = ({ id, userID, scholarshipID, title, foundation, tags, date, views,onToggleFavorite, isFavorite  }) => {
   // const [isFavorite, setIsFavorite] = useState(false);
-  const dDay = date ?  calculateDDay(date) || '-' : '-';
-
+  const dDay = date  ?  calculateDDay(date) || '-' : '-';
+  console.log("!!!!date",date);
   const navigate = useNavigate();
 
   const handleCardClick = () => {

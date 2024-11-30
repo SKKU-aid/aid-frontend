@@ -26,7 +26,7 @@ const AllNotices = ({ scholarships, userID, toggleFavorite }) => {
           foundation={scholarship.foundation}
           views={scholarship.views}
           tags={scholarship.tags}
-          date={scholarship.applicationPeriod}
+          date={(scholarship.applicationPeriod && !scholarship.applicationPeriod.includes("Unknown")) ? scholarship.applicationPeriod : '-'}
           isFavorite={scholarship.isFav}
           // isFavorite={scholarship.isFavorite}
           onToggleFavorite={() => toggleFavorite(userID, scholarship.isFav, scholarship.scholarshipID)}

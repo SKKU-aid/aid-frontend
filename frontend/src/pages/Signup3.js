@@ -186,7 +186,6 @@ const Signup3 = () => {
             fullWidth
             onClick={handleNext}
             disabled={isDisabled}
-            sx={{mb: 5 }}
           >
             완료
           </Button>
