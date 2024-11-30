@@ -23,7 +23,6 @@ const calculateDDay = (period) => {
 const ScholarshipCard = ({ id, userID, scholarshipID, title, foundation, tags, date, views,onToggleFavorite, isFavorite  }) => {
   // const [isFavorite, setIsFavorite] = useState(false);
   const dDay = date  ?  calculateDDay(date) || '-' : '-';
-  console.log("!!!!date",date);
   const navigate = useNavigate();
 
   const handleCardClick = () => {

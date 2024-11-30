@@ -29,9 +29,7 @@ const Home = ({ isLogin }) => {
   }, []);
   
   useEffect(() => {
-    if (userID !== null) { // userID가 초기화된 이후에만 호출
-      refreshData();
-    } 
+    refreshData();
   }, [userID, activeTab]); // userID와 activeTab 변경 시 데이터 새로고침
   
   const refreshData = async () => {
@@ -175,7 +173,7 @@ const Home = ({ isLogin }) => {
 
   return (
     <div>
-      <Header isLogin={isLogin} />
+      <Header isLogin={userID != null ? true : false} />
       <div style={{ width: '100vw', backgroundColor: 'white', overflowX: 'hidden' }}>
         <Container
           sx={{
