@@ -1,0 +1,115 @@
+/* 화면 전체를 채우고 중앙 정렬을 위한 스타일 */
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+#root {
+    height: 100%;
+}
+
+/* 회원가입 컨테이너 스타일 */
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+/* 회원가입 헤더 스타일 */
+.signup-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* 회원가입 제목 스타일 */
+#signup-title {
+    text-align: left;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.signup-logo {
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+/* 회원가입 폼 스타일 */
+.signup-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.signup-form label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.signup-form input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* 아이디 입력 및 중복확인 버튼 컨테이너 스타일 */
+.userId-input-container {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    position: relative;
+}
+
+.userId-input-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    padding-right: 90px; /* 중복확인 버튼 공간 확보 */
+}
+
+.id-check-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 5px 10px;
+    border: none;
+    background: none;
+    font-size: 0.9em;
+    cursor: pointer;
+    color: #555;
+}
+
+/* 회원가입 버튼 스타일 */
+.signup-button {
+    margin-top: 20px;
+    width: 120px; /* 버튼의 가로 크기를 줄임 */
+    padding: 10px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 10px; /* 둥근 모서리 */
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    align-self: flex-end; /* 버튼을 오른쪽으로 정렬 */
+}

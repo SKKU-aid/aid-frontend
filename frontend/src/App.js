@@ -9,6 +9,9 @@ import NoticeDetail from './components/Notices/NoticeDetail';
 import Signup2 from './pages/Signup2';
 import Signup3 from './pages/Signup3';
 import Signup4 from './pages/Signup4';
+import FindId from './pages/FindId';
+import FindId2 from './pages/FindId2';
+import FindId3 from './pages/FindId3';
 
 const theme = createTheme({
   typography: {
@@ -44,6 +47,9 @@ const App = () => {
               <Route path="/signUp2" element={<Signup2/>} />
               <Route path="/signUp3" element={<Signup3/>} />
               <Route path="/signUp4" element={<Signup4/>} />
+              <Route path="/find-id" element={<FindId/>} />
+              <Route path="/find-id2" element={<FindId2/>} />
+              <Route path="/find-id3" element={<FindId3/>} />
               <Route path="/home" element={<Home isLogin={isLogin}/>} />
             </>
         </Routes>
