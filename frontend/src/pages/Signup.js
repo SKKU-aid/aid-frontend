@@ -76,7 +76,7 @@ const Signup = () => {
       <form className="signup-form" style={{ position: 'relative' }}>
         <CustomTextField
           type="text"
-          placeholder="아이디 (이메일 형식)"
+          placeholder="아이디"
           required
           sx={{ mb: 3, mt: 3 }}
           value={userId}

@@ -118,7 +118,8 @@ const Signup3 = () => {
   return (
     <div className="signup3-container">
       <div className="signup3-header">
-        <h1>추가 정보 입력</h1>
+        <img src="/logo.png" alt="SKKU 장학비서" className="signup2-logo" />
+        <h1 id="signup3-title">추가 정보 입력</h1>
       </div>
       <form className="signup3-form">
         <TextField
@@ -127,7 +128,7 @@ const Signup3 = () => {
           value={overallGPA}
           onChange={handleGPAChange(setOverallGPA)}
           fullWidth
-          variant="standard"
+          variant="outlined"
           inputProps={{ step: 0.1, max: 4.5 }}
           sx={{ mb: 3 }}
         />
@@ -137,7 +138,7 @@ const Signup3 = () => {
           value={previousGPA}
           onChange={handleGPAChange(setPreviousGPA)}
           fullWidth
-          variant="standard"
+          variant="outlined"
           inputProps={{ step: 0.1, max: 4.5 }}
           sx={{ mb: 3 }}
         />
@@ -185,6 +186,7 @@ const Signup3 = () => {
             fullWidth
             onClick={handleNext}
             disabled={isDisabled}
+            sx={{mb: 5 }}
           >
             완료
           </Button>

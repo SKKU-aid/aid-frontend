@@ -10,7 +10,6 @@ const Sidebar = ({ isOpen, onClose, isLogin }) => {
     const [openDialog, setOpenDialog] = useState(false);
     const [error, setError] = useState(null);
 
-    const userName = localStorage.getItem('userName');
     const userID = localStorage.getItem('currentUserID');
 
     useEffect(() => {
@@ -51,7 +50,7 @@ const Sidebar = ({ isOpen, onClose, isLogin }) => {
                     {isLogin ? 
                     <>
                         <Avatar alt="프로필 사진" sx={{ width: '150px', height: '150px', mb: '20px', p: 1}} />
-                        <Typography sx={{fontWeight: 800}}>{userName ? `${userName} 님` : "소공개 님"}</Typography>
+                        <Typography sx={{fontWeight: 800}}>{userID ? `${userID} 님` : "소공개 님"}</Typography>
                         <Button onClick={handleOpenDialog} sx={{backgroundColor: 'green', color: '#fff', m: 3, p: '5px 20px', '&:hover': {backgroundColor: 'yellowgreen'}, fontWeight: 600 }}>
                             내 정보 
                         </Button>
@@ -64,7 +63,7 @@ const Sidebar = ({ isOpen, onClose, isLogin }) => {
                 onClose={handleCloseDialog} 
                 userInfo={userInfo} 
                 setUserInfo={setUserInfo}
-                userName={userName}
+                userName={userID}
             />
         </Drawer>
     );

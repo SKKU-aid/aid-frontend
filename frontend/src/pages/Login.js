@@ -21,9 +21,8 @@ const Login = () => {
         // 로그인 성공
         setLoginFail(false);
         setErrorMessage('');
-        // localStorage에 userID 저장 userId : 이메일 형식 ex. test@test.com. 여기서 @ 앞 test만 뽑아서 저장
+        
         localStorage.setItem('currentUserID', userId);
-        localStorage.setItem('userName', userId.split('@')[0]);
         // 성공적인 로그인을 처리한 후 홈으로 이동
         navigate('/home');
       } else {

@@ -73,7 +73,7 @@ const Signup2 = () => {
   };
 
   return (
-    <div className="signup2-container">
+    <div className="signup2-container" style={{padding: '65px 40px'}}>
       <div className="signup2-header">
         <img src="/logo.png" alt="SKKU 장학비서" className="signup2-logo" />
         <h1 id="signup2-title">기본 정보 입력</h1>
@@ -134,7 +134,6 @@ const Signup2 = () => {
               sx={{ mb: 3 }}
             />
           )}
-          sx={{ mb: 3 }}
         />
         <FormControl fullWidth sx={{ mb: 3 }} variant="outlined">
           <InputLabel id="semester-select-label">현재 학기</InputLabel>

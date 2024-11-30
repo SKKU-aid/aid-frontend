@@ -18,7 +18,6 @@ const Header = ({ isLogin }) => {
 
     const handleLogout = () => {
         localStorage.removeItem('currentUserID');
-        localStorage.removeItem('userName');
         navigate('/login');
     };
 
