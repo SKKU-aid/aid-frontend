@@ -153,15 +153,36 @@ const Home = ({ isLogin }) => {
     const sortScholarships = (scholarshipsToSort) => {
       switch (sortOption) {
         case 'recent':
-          return scholarshipsToSort.sort((a, b) => new Date(a.date) - new Date(b.date));
+          return scholarshipsToSort.sort((a, b) => {
+            const dateA = a.applicationPeriod.match(/(\d{4}-\d{2}-\d{2})/g);
+            const dateB = b.applicationPeriod.match(/(\d{4}-\d{2}-\d{2})/g);
+            if (!dateA) return 1;
+            if (!dateB) return -1;
+            return new Date(dateB[0]) - new Date(dateA[0]);
+          });
         case 'deadline':
           return scholarshipsToSort.sort((a, b) => {
-            const dateA = a.applicationPeriod.match(/\d{1,2}\.\d{1,2}/g);
-            const dateB = b.applicationPeriod.match(/\d{1,2}\.\d{1,2}/g);
-            return dateA && dateB ? new Date(dateA[0]) - new Date(dateB[0]) : 0;
+            const dateA = a.applicationPeriod.match(/(\d{4}-\d{2}-\d{2})/g);
+            const dateB = b.applicationPeriod.match(/(\d{4}-\d{2}-\d{2})/g);
+            if (!dateA) return 1;
+            if (!dateB) return -1;
+            
+            const endDateA = new Date(dateA[1]);
+            const endDateB = new Date(dateB[1]);
+
+            const today = new Date();
+            const diffDaysA = Math.ceil((endDateA - today) / (1000 * 60 * 60 * 24));
+            const diffDaysB = Math.ceil((endDateB - today) / (1000 * 60 * 60 * 24));
+
+            if (diffDaysA < 0 && diffDaysB < 0) return diffDaysB - diffDaysA;
+            if (diffDaysA < 0) return 1;
+            if (diffDaysB < 0) return -1;
+            return diffDaysA - diffDaysB;
           });
         case 'views':
-          return scholarshipsToSort.sort((a, b) => b.views - a.views);
+          return scholarshipsToSort.sort((a, b) => {
+            return b.views - a.views;
+          });
         default:
           return scholarshipsToSort;
       }

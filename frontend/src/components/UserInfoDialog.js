@@ -224,7 +224,7 @@ const UserInfoDialog = ({ open, onClose, userInfo: initialUserInfo, setUserInfo:
                         <Container>
                             <ListItem>
                                 <Typography variant="body1" sx={{ fontWeight: 700, pr: 2 }}>성별</Typography>
-                                <Typography variant="body1">{userInfo.sex ? "여자" : "남자"}</Typography>
+                                <Typography variant="body1">{userInfo.sex ? "남자" : "여자"}</Typography>
                             </ListItem>
                             <ListItem>
                                 <Typography variant="body1" sx={{ fontWeight: 700, pr: 2 }}>현재학기</Typography>

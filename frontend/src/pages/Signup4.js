@@ -7,7 +7,7 @@ const Signup4 = () => {
 
   const handleLogin = () => {
     // 로그인 페이지로 이동하는 로직 추가
-    alert('로그인 페이지로 이동합니다.');
+    // alert('로그인 페이지로 이동합니다.');
     navigate('/login');
   };
 
