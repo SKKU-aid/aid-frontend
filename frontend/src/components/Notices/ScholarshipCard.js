@@ -8,11 +8,11 @@ import { useNavigate } from 'react-router-dom';
 
 const calculateDDay = (period) => {
   if (!period || !period.includes('~')) 
-    return '-';
+    return '정보 없음';
 
   const [start, end] = period.split('~');
   if (!end || isNaN(new Date(end).getTime()))
-    return '-';
+    return '정보 없음';
 
   const endDate = new Date(end.trim());
   const today = new Date();
