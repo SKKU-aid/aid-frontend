@@ -80,7 +80,7 @@ const Signup3 = () => {
     const registrationData = {
       userID: localStorage.getItem('userID'),
       userPassword: localStorage.getItem('userPassword'),
-      userEmail: localStorage.getItem('userID'),
+      userEmail: localStorage.getItem('email'),
       sex: localStorage.getItem('gender') === '남',
       birthday: localStorage.getItem('birthDate'),
       major: localStorage.getItem('major'),
